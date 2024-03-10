@@ -3,34 +3,30 @@
 
   const margin = { top: 10, right: 100, left: 100, bottom: 30 };
 
-  let width = 500;
-  let height = 500;
+  let width = 800;
+  let height = 800;
 
   // Spiral viz
-  const radius = width / 2 - 20;
-  // Number of spirals
-  const coils = 5.6;
-  const rotation = 2 * Math.PI;
-  const thetaMax = coils * 1.5 * Math.PI;
-  const awayStep = radius / thetaMax;
-  // Spacing
-  const chord = 36;
-  let theta = chord / awayStep;
-  // let initialData = data.sort((a, b) => a.grade - b.grade);
   $: processedData = [];
+  const pointsPerRotation = 20;
+  let rank = 1;
+  const inner = 30;
+  const param = 0.38;
+
   $: data
     .sort((a, b) => a.transfered_date - b.transfered_date)
     .map((e) => {
-      if (theta <= thetaMax) {
-        let away = awayStep * theta;
-        let around = theta + rotation;
-        let x = width / 2 + Math.cos(around) * away;
-        let y = height / 2 + Math.sin(around) * away;
-        theta += chord / away;
-        e["x"] = x;
-        e["y"] = y;
-        processedData.push(e);
-      }
+      e["rank"] = rank;
+      e["x"] =
+        (inner + rank / param) *
+        Math.cos((rank / pointsPerRotation) * 2 * Math.PI);
+      e["y"] =
+        (inner + rank / param) *
+        Math.sin((rank / pointsPerRotation) * 2 * Math.PI);
+      // console.log(data);
+      processedData.push(e);
+      // console.log(processedData);
+      rank++;
     });
 
   // flowers
@@ -45,14 +41,18 @@
   </div>
 
   <div class="graph-container">
-    <svg {height} {width}>
+    <svg {height} {width} viewBox="-{width / 2} -{height / 2} {width} {height}">
       <g>
         {#if processedData}
           {#each processedData as person}
-            <g transform="translate({person.x} {person.y}), scale(0.5)">
+            <g
+              transform="translate({person.x} {person.y}), scale({0.8 -
+                person.id / 150})"
+              class="{person.name} flower"
+            >
               {#each petals as petal, i}
                 <path
-                  fill={person.sex === "M" ? "#1B2B5C" : "#F34C63"}
+                  fill={person.sex === "M" ? "#7480D2" : "#F34C63"}
                   d="M20.7,2.5C20.7,15.4,10.4,30.8,2.4,30.8C-5.7,30.8,-11.3,15.4,-11.3,2.5C-11.3,-10.3,-5.7,-20.7,2.4,-20.7C10.4,-20.7,20.7,-10.3,20.7,2.5Z"
                   transform="rotate({80 * i})"
                   fill-opacity="50%"
@@ -73,6 +73,9 @@
 </main>
 
 <style>
+  main {
+    background-color: #120833;
+  }
   .intro {
     font-family: "Cabinet Grotesk", sans-serif;
     text-align: center;
