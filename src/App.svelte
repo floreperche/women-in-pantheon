@@ -1,45 +1,52 @@
 <script>
   import data from "./assets/pantheon_data.json";
+  import { forceSimulation, forceX, forceY, forceCollide } from "d3";
+  import { scaleLinear, scaleBand } from "d3";
+  import SpiralViz from "./components/SpiralViz.svelte";
   import Flower from "./components/Flower.svelte";
 
-  const margin = { top: 10, right: 100, left: 100, bottom: 30 };
+  // const margin = { top: 10, right: 100, left: 100, bottom: 30 };
 
   let width = 600;
   let height = 500;
   let marginHeight = 150;
 
-  // Spiral viz
-  $: processedData = [];
-  const pointsPerRotation = 20;
-  let rank = 1;
-  const inner = 30;
-  const param = 0.38;
+  // Bee-swarm chart
 
-  $: data
-    .sort((a, b) => a.transfered_date - b.transfered_date)
-    .map((e) => {
-      e["rank"] = rank;
-      e["x"] =
-        (inner + rank / param) *
-        Math.cos((rank / pointsPerRotation) * 2 * Math.PI);
-      e["y"] =
-        (inner + rank / param) *
-        Math.sin((rank / pointsPerRotation) * 2 * Math.PI);
-      // console.log(data);
-      processedData.push(e);
-      // console.log(processedData);
-      rank++;
-    });
+  $: xScale = scaleLinear().domain([1791, 2024]).range([0, width]);
 
-  // Final year annotation
-  let annotationCoordinates = {
-    x:
-      (inner + (data.length + 1) / param) *
-      Math.cos(((data.length + 1) / pointsPerRotation) * 2 * Math.PI),
-    y:
-      (inner + (data.length + 1) / param) *
-      Math.sin(((data.length + 1) / pointsPerRotation) * 2 * Math.PI),
-  };
+  $: yScale = scaleBand().domain(["M", "W"]).range([height, 100]);
+
+  const RADIUS = 7;
+
+  let simulation = forceSimulation(data);
+  let nodes = [];
+
+  simulation.on("tick", () => {
+    nodes = simulation.nodes();
+  });
+
+  $: {
+    simulation
+      .force(
+        "x",
+        forceX()
+          .x((d) => xScale(d.transfered_date))
+          .strength(0.8)
+      )
+      .force(
+        "y",
+        forceY()
+          .y((d) => yScale(d.sex))
+          .strength(0.2)
+      )
+      .force("collide", forceCollide().radius(RADIUS))
+      .alpha(0.3)
+      .alphaDecay(0.0005)
+      .restart();
+  }
+
+  // console.log(simulation.nodes());
 </script>
 
 <main>
@@ -48,98 +55,21 @@
     <p>Dataviz</p>
   </div>
 
-  <div class="graph-container">
-    {#if processedData}
-      <div class="legend">
-        <svg {width} height={marginHeight}>
-          <g
-            transform="translate({width / 2 - 200} {marginHeight / 2 -
-              10}), scale({0.7})"
-            ><Flower person={{ sex: "W", status: "Panthéonisée" }} /><text
-              fill="#EEE7EF"
-              x="0"
-              y="60"
-              text-anchor="middle"
-              transform="scale({1})"
-              ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
-                x="0"
-                dy="1.2em"
-                text-anchor="middle">panthéonisée</tspan
-              >
-            </text></g
-          >
-          <g
-            transform="translate({width / 2 - 100} {marginHeight / 2 -
-              10}), scale({0.7})"
-            ><Flower person={{ sex: "M", status: "Panthéonisée" }} /><text
-              fill="#EEE7EF"
-              x="0"
-              y="60"
-              text-anchor="middle"
-              transform="scale({1})"
-              ><tspan x="0" dy="-0.5em" text-anchor="middle">Homme</tspan><tspan
-                x="0"
-                dy="1.2em"
-                text-anchor="middle">panthéonisé</tspan
-              ></text
-            ></g
-          >
-          <g
-            transform="translate({width / 2 + 150} {marginHeight / 2 -
-              10}), scale({0.7})"
-          >
-            <g transform="translate(-60 0)">
-              <Flower person={{ sex: "W", status: "Partenaire" }} />
-            </g>
+  <SpiralViz {data} {width} {height} {marginHeight} />
 
-            <g transform="translate(60 0)">
-              <Flower person={{ sex: "M", status: "Partenaire" }} /></g
-            >
-            <text
-              fill="#EEE7EF"
-              x="0"
-              y="60"
-              text-anchor="middle"
-              transform="scale({1})"
-            >
-              <tspan x="0" dy="-0.5em" text-anchor="middle"
-                >Femme / homme reposant au Panthéon,</tspan
-              ><tspan x="0" dy="1.2em" text-anchor="middle"
-                >sans être panthéonisé(e)</tspan
-              >
-            </text></g
-          >
-        </svg>
-      </div>
-
-      <svg
-        {height}
-        {width}
-        viewBox="-{width / 2} -{height / 2} {width} {height}"
-      >
-        <g>
-          <text x="0" y="-10" class="annotations" fill="#EEE7EF"
-            >{processedData[0].transfered_date}</text
-          >
-          <text
-            x={annotationCoordinates.x}
-            y={annotationCoordinates.y}
-            class="annotations"
-            fill="#EEE7EF"
-            >{processedData[processedData.length - 1].transfered_date}</text
-          >
-          {#each processedData as person}
-            <g
-              transform="translate({person.x} {person.y}), scale({0.8 -
-                person.id / 150})"
-              class="{person.name} flower"
-            >
-              <Flower {person} />
-              {console.log(person)}
-            </g>
-          {/each}
-        </g></svg
-      >{/if}
+  <div class="graph-container bee">
+    <svg {height} {width}>
+      {#each nodes as person}
+        <circle
+          cx={person.x}
+          cy={person.y}
+          r="5"
+          fill={person.sex === "W" ? "#F34C63" : "#7480D2"}
+          stroke="#120833"
+          class={person.name}
+        />
+      {/each}
+    </svg>
   </div>
 </main>
 
