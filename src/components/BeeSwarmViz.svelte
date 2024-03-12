@@ -48,8 +48,8 @@
           .strength(0.01)
       )
       .force("collide", forceCollide().radius(RADIUS))
-      .alpha(0.2)
-      .alphaDecay(0.005)
+      .alpha(0.8)
+      .alphaDecay(0.0005)
       .restart();
   }
 
