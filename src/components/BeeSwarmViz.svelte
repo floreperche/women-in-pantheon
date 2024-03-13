@@ -26,12 +26,13 @@
 
   const RADIUS = 8;
 
-  let simulation = forceSimulation(data);
-  let nodes = [];
+  const simulation = forceSimulation(data);
 
-  simulation.on("tick", () => {
-    nodes = simulation.nodes();
-  });
+  // let nodes = [];
+
+  // simulation.on("tick", () => {
+  //   nodes = simulation.nodes();
+  // });
 
   $: {
     simulation
@@ -48,10 +49,15 @@
           .strength(0.01)
       )
       .force("collide", forceCollide().radius(RADIUS))
-      .alpha(0.8)
-      .alphaDecay(0.0005)
-      .restart();
+      .alpha(0.99)
+      .alphaDecay(0.0005);
+    // .restart();
   }
+
+  let nodes = [];
+  simulation.on("tick", () => {
+    nodes = simulation.nodes();
+  });
 
   // Ticks
   let xTicks = [1800, 1850, 1900, 1950, 2000];
@@ -174,7 +180,7 @@
     {/each}
 
     <!-- Data points -->
-    {#each nodes as person}
+    {#each nodes as person, index}
       <g transform="translate({person.x} {person.y}), scale({1})"
         ><path
           fill={person.status === "Panthéonisée"

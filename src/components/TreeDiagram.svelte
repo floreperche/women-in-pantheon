@@ -201,7 +201,11 @@
                     .y}), scale(0.8)"
                   class="flower"
                 >
-                  <Flower person={{ sex: "W", status: "Panthéonisée" }} />
+                  <Flower
+                    person={{ sex: "W", status: "Panthéonisée" }}
+                    shape={"petals"}
+                    hovered=""
+                  />
                 </g>
               {/if}
             {:else}
@@ -223,7 +227,11 @@
                 )}), scale(0.7)"
                 class="flower"
               >
-                <Flower person={{ sex: "W", status: e.data.status }} />
+                <Flower
+                  person={{ sex: "W", status: e.data.status }}
+                  shape={"petals"}
+                  hovered=""
+                />
               </g>
             {/if}
           {/each}

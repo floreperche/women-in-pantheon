@@ -1,6 +1,5 @@
 <script>
   import data from "./assets/pantheon_data.json";
-
   import SpiralViz from "./components/SpiralViz.svelte";
   import BeeSwarmViz from "./components/BeeSwarmViz.svelte";
   import TreeDiagram from "./components/TreeDiagram.svelte";
@@ -104,6 +103,7 @@
     background-color: #eee7ef;
     color: #120833;
     cursor: pointer;
+    border-radius: 3px;
   }
 
   .bottom-space {
