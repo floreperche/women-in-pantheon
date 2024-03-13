@@ -165,7 +165,7 @@
         </g></svg
       >
       {#if hovered}
-        <Tooltip data={hovered} {width} />
+        <Tooltip data={hovered} {width} {colorScale} />
       {/if}
     </div>
   {/if}

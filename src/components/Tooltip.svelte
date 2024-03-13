@@ -1,6 +1,7 @@
 <script>
   export let data;
   export let width;
+  export let colorScale;
 
   const maxWidth = 180;
   const nudge = 20;
@@ -8,15 +9,34 @@
     data.x + maxWidth + nudge > width
       ? data.x - maxWidth - nudge
       : data.x + nudge;
-  $: console.log(xPosition);
+  // $: console.log(xPosition);
 </script>
 
 <div class="tooltip" style="left: {xPosition}px; top: {data.y + 20}px">
-  <h2>{data.data.name}</h2>
-  <p>{data.data.birth_date}-{data.data.death_date}</p>
-  {#if data.data.sex === "W"}Panthéonisée en {data.data.transfered_date}
+  <h2>
+    <span>{data.data.name}</span> ({data.data.birth_date}-{data.data
+      .death_date})
+  </h2>
+  {#if data.data.status === "Panthéonisée"}
+    <p>
+      {#if data.data.sex === "W"}Panthéonisée en <span
+          style="background-color : {colorScale(data.data.sex)}"
+          >{data.data.transfered_date}</span
+        >
+      {:else}
+        Panthéonisé en <span
+          style="background-color : {colorScale(data.data.sex)}"
+          >{data.data.transfered_date}</span
+        >
+      {/if}
+    </p>
   {:else}
-    Panthéonisée en {data.data.transfered_date}
+    <p>
+      Repose au Panthéon depuis <span
+        style="background-color : {colorScale(data.data.sex)}"
+        >{data.data.transfered_date}</span
+      >, mais n'est pas panthéonisé(e)
+    </p>
   {/if}
 </div>
 
@@ -27,7 +47,6 @@
     background: #eee7ef;
     border-radius: 3px;
     color: #120833;
-
     pointer-events: none;
     transition:
       top 300ms ease,
@@ -37,15 +56,23 @@
 
   h2 {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 6px;
     width: 100%;
-    display: flex;
-    align-items: center;
   }
 
   .tooltip h2,
-  .tooltip p {
+  .tooltip h2 span,
+  p {
     color: #120833;
+  }
+
+  p span {
+    color: #eee7ef;
+    padding: 2px 4px;
+    width: fit-content;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 4px;
   }
 </style>
