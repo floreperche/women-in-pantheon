@@ -1,5 +1,5 @@
 <script>
-  import { hierarchy, cluster } from "d3";
+  import { hierarchy, cluster, scaleLinear } from "d3";
   import Flower from "./Flower.svelte";
 
   export let data;
@@ -7,43 +7,54 @@
   export let height;
   export let marginHeight;
 
-  //   $: console.log(root);
+  // Creating the hiearchy dataset
   let dataHierarchy = {
     name: "femmes",
     children: [
+      { name: "Scientifique", children: [] },
       { name: "Résistante", children: [] },
       { name: "Artiste", children: [] },
-      { name: "Scientifique", children: [] },
       { name: "Femme politique", children: [] },
     ],
   };
 
-  data
-    .sort((a, b) => a.gap_death_transfered - b.gap_death_transfered)
-    .map((e) => {
-      if (e.sex === "W") {
-        if (e.resistant === "TRUE") {
-          if (e.other_art === "FALSE") {
-            dataHierarchy.children[0].children.push({ name: e.name });
-          }
-        }
-        if (e.other_art === "TRUE") {
-          if (e.resistant === "TRUE") {
-            dataHierarchy.children[0].children.push({ name: e.name });
-          }
-          dataHierarchy.children[1].children.push({ name: e.name });
-        }
-        if (e.science === "TRUE") {
-          dataHierarchy.children[2].children.push({ name: e.name });
-        }
-        if (e.politic === "TRUE") {
-          dataHierarchy.children[3].children.push({ name: e.name });
-        }
+  data.map((e) => {
+    if (e.sex === "W") {
+      if (e.science === "TRUE") {
+        dataHierarchy.children[0].children.push({
+          name: e.name,
+          status: e.status,
+          transfered_date: e.transfered_date,
+        });
       }
-      if (e.id === data.length) {
+      if (e.resistant === "TRUE") {
+        dataHierarchy.children[1].children.push({
+          name: e.name,
+          status: e.status,
+          transfered_date: e.transfered_date,
+        });
       }
-    });
 
+      if (e.other_art === "TRUE") {
+        dataHierarchy.children[2].children.push({
+          name: e.name,
+          status: e.status,
+          transfered_date: e.transfered_date,
+        });
+      }
+      if (e.politic === "TRUE") {
+        dataHierarchy.children[3].children.push({
+          name: e.name,
+          status: e.status,
+          transfered_date: e.transfered_date,
+        });
+      }
+    }
+    if (e.id === data.length) {
+    }
+  });
+
+  // Building the tree layout
   const clusterLayout = cluster().size([height + 100, width - 130]);
   const root = hierarchy(dataHierarchy, (d) => {
     return d.children;
@@ -71,25 +82,30 @@
     return result;
   };
 
-  // Manage Josephine Baker exception
+  // Scale for Y axes of flowers
+  let yScale = scaleLinear()
+    .domain([1900, 2024])
+    .range([height / 2 + 30, height - 30]);
+
+  // Managing Josephine Baker exception
   let bakerCoord = [];
   let bakerCalculation = (e) => {
     bakerCoord.push(e);
     if (bakerCoord.length > 1) {
       bakerCoord.push({
-        x: (bakerCoord[0].x + bakerCoord[1].x) / 2,
-        y: (bakerCoord[0].y + bakerCoord[1].y) / 2,
+        x: bakerCoord[0].x,
+        y: bakerCoord[0].y,
         path1: linkPathGenerator({
-          x: (bakerCoord[0].x + bakerCoord[1].x) / 2,
-          y: (bakerCoord[0].y + bakerCoord[1].y) / 2,
+          x: bakerCoord[0].x,
+          y: bakerCoord[0].y,
           parent: {
             x: bakerCoord[0].parent.x,
             y: bakerCoord[0].parent.y,
           },
         }),
         path2: linkPathGenerator({
-          x: (bakerCoord[0].x + bakerCoord[1].x) / 2,
-          y: (bakerCoord[0].y + bakerCoord[1].y) / 2,
+          x: bakerCoord[0].x,
+          y: bakerCoord[0].y,
           parent: {
             x: bakerCoord[1].parent.x,
             y: bakerCoord[1].parent.y,
@@ -117,15 +133,26 @@
             stroke="#eee7ef"
             stroke-width="3"
             stroke-opacity="0.6"
+            stroke-linecap="round"
             fill="none"
             d={linkPathGenerator(d)}
           />
+          <g transform="translate({d.x} {d.y}), scale(0.8)" class="flower">
+            <path
+              fill="#eee7ef"
+              stroke="none"
+              stroke-width="6"
+              d="M48.1,-66.9C63,-55.4,76.2,-42.2,82.6,-26C89,-9.8,88.5,9.4,81.8,25.5C75,41.5,62,54.4,47.3,62.6C32.6,70.8,16.3,74.3,0.2,74C-15.9,73.7,-31.7,69.6,-43.7,60.6C-55.7,51.5,-63.9,37.4,-71,21.6C-78.2,5.8,-84.4,-11.8,-81.9,-28.7C-79.3,-45.6,-68,-61.8,-52.9,-73.2C-37.8,-84.6,-18.9,-91.3,-1.1,-89.7C16.6,-88.2,33.2,-78.4,48.1,-66.9Z"
+              transform="scale(0.2)"
+              fill-opacity="100%"
+            />
+          </g>
+
           {#each d.children as e}
-            <!-- {console.log(e.data.name)} -->
+            <!-- Manage Josephine Baker exception -->
             {#if e.data.name === "Joséphine Baker"}
               {bakerCalculation(e)}
               {#if bakerCoord.length > 2}
-                <!-- {console.log(bakerCoord[2].x)} -->
                 <path
                   stroke="#eee7ef"
                   stroke-width="3"
@@ -154,24 +181,23 @@
                 stroke-width="3"
                 stroke-opacity="0.6"
                 fill="none"
-                d={linkPathGenerator(e)}
+                d={linkPathGenerator({
+                  x: e.x,
+                  y: yScale(e.data.transfered_date),
+                  parent: { x: e.parent.x, y: e.parent.y },
+                })}
               />
-              <g transform="translate({e.x} {e.y}), scale(0.8)" class="flower">
-                <Flower person={{ sex: "W", status: "Panthéonisée" }} />
+
+              <g
+                transform="translate({e.x} {yScale(
+                  e.data.transfered_date
+                )}), scale(0.7)"
+                class="flower"
+              >
+                <Flower person={{ sex: "W", status: e.data.status }} />
               </g>
-              <!-- {console.log(e)} -->
             {/if}
           {/each}
-          <g transform="translate({d.x} {d.y}), scale(0.8)" class="flower">
-            <path
-              fill="#f55f74"
-              stroke="none"
-              stroke-width="6"
-              d="M48.1,-66.9C63,-55.4,76.2,-42.2,82.6,-26C89,-9.8,88.5,9.4,81.8,25.5C75,41.5,62,54.4,47.3,62.6C32.6,70.8,16.3,74.3,0.2,74C-15.9,73.7,-31.7,69.6,-43.7,60.6C-55.7,51.5,-63.9,37.4,-71,21.6C-78.2,5.8,-84.4,-11.8,-81.9,-28.7C-79.3,-45.6,-68,-61.8,-52.9,-73.2C-37.8,-84.6,-18.9,-91.3,-1.1,-89.7C16.6,-88.2,33.2,-78.4,48.1,-66.9Z"
-              transform="scale(0.2)"
-              fill-opacity="100%"
-            />
-          </g>
         </g>
       {/each}
     </g>
