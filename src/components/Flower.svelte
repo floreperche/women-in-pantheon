@@ -24,7 +24,7 @@
       stroke-width="1"
       d="M20.7,2.5C20.7,15.4,10.4,30.8,2.4,30.8C-5.7,30.8,-11.3,15.4,-11.3,2.5C-11.3,-10.3,-5.7,-20.7,2.4,-20.7C10.4,-20.7,20.7,-10.3,20.7,2.5Z"
       transform="rotate({80 * i})"
-      fill-opacity={person.status === "Panthéonisée" ? "50%" : "80%"}
+      fill-opacity={person.status === "Panthéonisée" ? "50%" : "100%"}
     />
   {/each}
 {:else if person.sex === "M"}

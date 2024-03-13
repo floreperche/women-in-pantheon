@@ -114,6 +114,9 @@
       });
     }
   };
+
+  // Ticks
+  let yTicks = [1900, 1920, 1940, 1960, 1980, 2000, 2020];
 </script>
 
 <div class="graph-container tree">
@@ -126,7 +129,29 @@
     viewBox="-{width / 2} -{height / 2} {width} {height}"
     class="viz"
   >
-    <g transform="scale(1 -1)translate(-{width / 2},-{height / 2})">
+    <!-- Ticks -->
+    {#each yTicks as tick, i}
+      <g class="tick" transform="translate(-{width / 2},-{height / 2})">
+        <text
+          fill={tick % 100 ? "none" : "#EEE7EF"}
+          x="20"
+          y={height - yScale(tick)}
+          dominant-baseline="middle"
+          text-anchor="middle">{tick}</text
+        >
+        <line
+          x1="15"
+          x2="25"
+          y1={height - yScale(tick)}
+          y2={height - yScale(tick)}
+          stroke={tick % 100 ? "#EEE7EF" : "none"}
+        />
+        {console.log(yScale(tick))}
+      </g>
+    {/each}
+
+    <!-- Graph main elements -->
+    <g transform="scale(1 -1)translate(-{width / 2 - 20}, -{height / 2})">
       {#each root.children as d}
         <g
           ><path
