@@ -40,11 +40,10 @@
 
 <div class="graph-container spiral">
   {#if data}
+    <!-- legend -->
     <div class="legend">
       <svg {width} height={marginHeight}>
-        <g
-          transform="translate({width / 2 - 200} {marginHeight / 2 -
-            10}), scale({0.7})"
+        <g transform="translate({width / 2 - 200} 25), scale({0.7})"
           ><Flower person={{ sex: "W", status: "Panthéonisée" }} /><text
             fill="#EEE7EF"
             x="0"
@@ -58,9 +57,7 @@
             >
           </text></g
         >
-        <g
-          transform="translate({width / 2 - 100} {marginHeight / 2 -
-            10}), scale({0.7})"
+        <g transform="translate({width / 2 - 100} 25), scale({0.7})"
           ><Flower person={{ sex: "M", status: "Panthéonisée" }} /><text
             fill="#EEE7EF"
             x="0"
@@ -74,10 +71,7 @@
             ></text
           ></g
         >
-        <g
-          transform="translate({width / 2 + 150} {marginHeight / 2 -
-            10}), scale({0.7})"
-        >
+        <g transform="translate({width / 2 + 150} 25), scale({0.7})">
           <g transform="translate(-60 0)">
             <Flower person={{ sex: "W", status: "Partenaire" }} />
           </g>

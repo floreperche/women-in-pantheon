@@ -61,10 +61,7 @@
   <!-- Legend -->
   <div class="legend">
     <svg {width} height={marginHeight}>
-      <g
-        transform="translate({width / 2 - 200} {marginHeight / 2 -
-          10}), scale({0.7})"
-      >
+      <g transform="translate({width / 2 - 200} 25), scale({0.7})">
         <path
           fill="#f55f74"
           stroke="none"
@@ -86,10 +83,7 @@
           >
         </text></g
       >
-      <g
-        transform="translate({width / 2 - 100} {marginHeight / 2 -
-          10}), scale({0.7})"
-      >
+      <g transform="translate({width / 2 - 100} 25), scale({0.7})">
         <path
           fill="#8891d1"
           stroke="none"
@@ -110,10 +104,7 @@
           ></text
         ></g
       >
-      <g
-        transform="translate({width / 2 + 150} {marginHeight / 2 -
-          10}), scale({0.7})"
-      >
+      <g transform="translate({width / 2 + 150} 25), scale({0.7})">
         <g transform="translate(-60 0)">
           <path
             fill="none"
@@ -154,7 +145,7 @@
 
   <svg {height} {width}>
     <!-- Axes, Gridlines and labels -->
-    {#each timeData as period}
+    <!-- {#each timeData as period}
       <rect
         x={xScale(period.start_date)}
         y="0"
@@ -163,7 +154,7 @@
         fill="#eee7ef"
         opacity={period.id % 2 ? "20%" : "8%"}
       />
-    {/each}
+    {/each} -->
     {#each xTicks as tick, i}
       <g class="tick" transform="translate({xScale(tick)},0)">
         <text

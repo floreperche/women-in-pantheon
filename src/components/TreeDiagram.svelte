@@ -55,6 +55,7 @@
   });
 
   // Building the tree layout
+  const yBreak = height / 2 - 100;
   const clusterLayout = cluster().size([height + 100, width - 130]);
   const root = hierarchy(dataHierarchy, (d) => {
     return d.children;
@@ -85,7 +86,7 @@
   // Scale for Y axes of flowers
   let yScale = scaleLinear()
     .domain([1900, 2024])
-    .range([height / 2 + 30, height - 30]);
+    .range([yBreak + 30, height - 30]);
 
   // Managing Josephine Baker exception
   let bakerCoord = [];
@@ -100,7 +101,7 @@
           y: bakerCoord[0].y,
           parent: {
             x: bakerCoord[0].parent.x,
-            y: bakerCoord[0].parent.y,
+            y: yBreak,
           },
         }),
         path2: linkPathGenerator({
@@ -108,7 +109,7 @@
           y: bakerCoord[0].y,
           parent: {
             x: bakerCoord[1].parent.x,
-            y: bakerCoord[1].parent.y,
+            y: yBreak,
           },
         }),
       });
@@ -146,7 +147,6 @@
           y2={height - yScale(tick)}
           stroke={tick % 100 ? "#EEE7EF" : "none"}
         />
-        {console.log(yScale(tick))}
       </g>
     {/each}
 
@@ -160,9 +160,13 @@
             stroke-opacity="0.6"
             stroke-linecap="round"
             fill="none"
-            d={linkPathGenerator(d)}
+            d={linkPathGenerator({
+              x: d.x,
+              y: yBreak,
+              parent: { x: d.parent.x, y: d.parent.y },
+            })}
           />
-          <g transform="translate({d.x} {d.y}), scale(0.8)" class="flower">
+          <g transform="translate({d.x} {yBreak}), scale(0.8)" class="flower">
             <path
               fill="#eee7ef"
               stroke="none"
@@ -209,7 +213,7 @@
                 d={linkPathGenerator({
                   x: e.x,
                   y: yScale(e.data.transfered_date),
-                  parent: { x: e.parent.x, y: e.parent.y },
+                  parent: { x: e.parent.x, y: yBreak },
                 })}
               />
 
