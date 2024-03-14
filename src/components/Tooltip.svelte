@@ -3,6 +3,8 @@
   export let width;
   export let colorScale;
 
+  import { fly, fade } from "svelte/transition";
+
   const maxWidth = 180;
   const nudge = 20;
   $: xPosition =
@@ -12,10 +14,14 @@
   // $: console.log(xPosition);
 </script>
 
-<div class="tooltip" style="left: {xPosition}px; top: {data.y + 20}px">
+<div
+  class="tooltip"
+  style="left: {xPosition}px; top: {data.y + 20}px"
+  in:fly={{ y: 10, duration: 200, delay: 200 }}
+  out:fade
+>
   <h2>
-    <span>{data.data.name}</span> ({data.data.birth_date}-{data.data
-      .death_date})
+    {data.data.name} ({data.data.birth_date}-{data.data.death_date})
   </h2>
   {#if data.data.status === "Panthéonisée"}
     <p>
@@ -55,7 +61,7 @@
   }
 
   h2 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     margin-bottom: 6px;
     width: 100%;

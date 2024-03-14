@@ -10,57 +10,42 @@
   let height = 500;
   let marginHeight = 100;
 
-  const VizOptions = [1, 2, 3];
+  const vizOptions = [1, 2, 3];
   let selectedOption = 1;
 </script>
 
 <main>
   <div class="intro">
     <h1>Aux grandes femmes, la Nation reconnaissante?</h1>
+    <nav>
+      {#each vizOptions as option}
+        <div
+          class="selection"
+          on:click={() => {
+            selectedOption = option;
+          }}
+          on:keydown={() => {
+            selectedOption = option;
+          }}
+          role="menuitem"
+          tabindex={1}
+          style="opacity : {selectedOption === option ? '100%' : '50%'}"
+        >
+          Viz {option}
+        </div>{/each}
+    </nav>
   </div>
 
   <div class="main-content">
-    <div class="left">
-      <nav>
-        {#each VizOptions as option}
-          <div class="nav-element">
-            <div
-              class="selection"
-              on:click={() => {
-                selectedOption = option;
-              }}
-              on:keydown={() => {
-                selectedOption = option;
-              }}
-              role="menuitem"
-              tabindex={option}
-            >
-              Option {option}
-            </div>
-            {#if selectedOption === option}
-              <div class="intro-text">
-                Lorem ipsum dolor sit amet consectetur. Interdum pellentesque
-                proin duis accumsan rhoncus proin in eget viverra. Malesuada
-                duis amet proin mauris netus fames. Auctor aliquam enim mollis
-                placerat lorem magna cursus. Nunc ornare tristique ut vulputate.
-              </div>
-            {/if}
-          </div>
-        {/each}
-      </nav>
-    </div>
-
-    <div class="right">
-      {#if selectedOption === 1}
-        <SpiralViz {data} {width} {height} {marginHeight} />
-      {/if}
-      {#if selectedOption === 2}
-        <BeeSwarmViz {data} {width} {height} {margin} {marginHeight} />
-      {/if}
-      {#if selectedOption === 3}
-        <TreeDiagram {data} {width} {height} {marginHeight} />
-      {/if}
-    </div>
+    {#if selectedOption === 1}
+      <SpiralViz {data} {width} {height} {marginHeight} />
+    {/if}
+    {#if selectedOption === 2}
+      <BeeSwarmViz {data} {width} {height} {margin} {marginHeight} />
+    {/if}
+    {#if selectedOption === 3}
+      <TreeDiagram {data} {width} {height} {marginHeight} />
+    {/if}
   </div>
 
   <div class="bottom-space"></div>
@@ -74,10 +59,13 @@
     font-family: "Cabinet Grotesk", sans-serif;
     text-align: center;
     padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   h1 {
     font-size: 40px;
+    margin-bottom: 20px;
   }
 
   .main-content {
@@ -86,24 +74,22 @@
     gap: 30px;
   }
 
-  .left {
-    width: 500px;
-  }
-
-  .nav-element {
+  nav {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
   }
 
   .selection {
     height: auto;
-    width: auto;
+    width: 100%;
     margin: 10px 0;
-    padding: 5px 10px;
+    padding: 5px 15px;
     text-align: center;
-    background-color: #eee7ef;
-    color: #120833;
+    border-bottom: 3px solid;
     cursor: pointer;
-    border-radius: 3px;
+    font-family: "Mochiy Pop One", sans-serif;
   }
 
   .bottom-space {

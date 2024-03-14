@@ -44,134 +44,151 @@
   let hovered = null;
 </script>
 
-<div class="graph-container spiral">
-  {#if data}
-    <!-- legend -->
-    <div class="legend">
-      <svg {width} height={marginHeight}>
-        <g transform="translate({width / 2 - 200} 25), scale({0.7})"
-          ><Flower
-            person={{ sex: "W", status: "Panthéonisée" }}
+<div class="left">
+  <div class="intro-viz">
+    Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
+    accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
+    netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
+    ornare tristique ut vulputate.
+  </div>
+  <!-- legend -->
+  <div class="legend">
+    <svg width="500" height={marginHeight}>
+      <g transform="translate({500 / 2 - 200} 25), scale({0.7})"
+        ><Flower
+          person={{ sex: "W", status: "Panthéonisée" }}
+          shape={"petals"}
+          hovered=""
+        /><text
+          fill="#EEE7EF"
+          x="0"
+          y="60"
+          text-anchor="middle"
+          transform="scale({1})"
+          ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
+            x="0"
+            dy="1.2em"
+            text-anchor="middle">panthéonisée</tspan
+          >
+        </text></g
+      >
+      <g transform="translate({500 / 2 - 100} 25), scale({0.7})"
+        ><Flower
+          person={{ sex: "M", status: "Panthéonisée" }}
+          shape={"petals"}
+          hovered=""
+        /><text
+          fill="#EEE7EF"
+          x="0"
+          y="60"
+          text-anchor="middle"
+          transform="scale({1})"
+          ><tspan x="0" dy="-0.5em" text-anchor="middle">Homme</tspan><tspan
+            x="0"
+            dy="1.2em"
+            text-anchor="middle">panthéonisé</tspan
+          ></text
+        ></g
+      >
+      <g transform="translate({500 / 2 + 120} 25), scale({0.7})">
+        <g transform="translate(-60 0)">
+          <Flower
+            person={{ sex: "W", status: "Partenaire" }}
             shape={"petals"}
             hovered=""
-          /><text
-            fill="#EEE7EF"
-            x="0"
-            y="60"
-            text-anchor="middle"
-            transform="scale({1})"
-            ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
-              x="0"
-              dy="1.2em"
-              text-anchor="middle">panthéonisée</tspan
-            >
-          </text></g
-        >
-        <g transform="translate({width / 2 - 100} 25), scale({0.7})"
-          ><Flower
-            person={{ sex: "M", status: "Panthéonisée" }}
+          />
+        </g>
+
+        <g transform="translate(60 0)">
+          <Flower
+            person={{ sex: "M", status: "Partenaire" }}
             shape={"petals"}
             hovered=""
-          /><text
-            fill="#EEE7EF"
-            x="0"
-            y="60"
-            text-anchor="middle"
-            transform="scale({1})"
-            ><tspan x="0" dy="-0.5em" text-anchor="middle">Homme</tspan><tspan
-              x="0"
-              dy="1.2em"
-              text-anchor="middle">panthéonisé</tspan
-            ></text
-          ></g
+          /></g
         >
-        <g transform="translate({width / 2 + 150} 25), scale({0.7})">
-          <g transform="translate(-60 0)">
-            <Flower
-              person={{ sex: "W", status: "Partenaire" }}
-              shape={"petals"}
-              hovered=""
-            />
-          </g>
-
-          <g transform="translate(60 0)">
-            <Flower
-              person={{ sex: "M", status: "Partenaire" }}
-              shape={"petals"}
-              hovered=""
-            /></g
-          >
-          <text
-            fill="#EEE7EF"
-            x="0"
-            y="60"
-            text-anchor="middle"
-            transform="scale({1})"
-          >
-            <tspan x="0" dy="-0.5em" text-anchor="middle"
-              >Femme / homme reposant au Panthéon,</tspan
-            ><tspan x="0" dy="1.2em" text-anchor="middle"
-              >sans être panthéonisé(e)</tspan
-            >
-          </text></g
+        <text
+          fill="#EEE7EF"
+          x="0"
+          y="60"
+          text-anchor="middle"
+          transform="scale({1})"
         >
-      </svg>
-    </div>
-
-    <div class="inner-container">
-      <svg
-        {height}
-        {width}
-        viewBox="-{width / 2} -{height / 2} {width} {height}"
-        on:mouseleave={() => {
-          hovered = null;
-        }}
-        role="tooltip"
+          <tspan x="0" dy="-0.5em" text-anchor="middle"
+            >Femme / homme reposant au Panthéon,</tspan
+          ><tspan x="0" dy="1.2em" text-anchor="middle"
+            >sans être panthéonisé(e)</tspan
+          >
+        </text></g
       >
-        <g>
-          <text x="0" y="-10" class="annotations" fill="#EEE7EF"
-            >{data[0].transfered_date}</text
-          >
-          <text
-            x={annotationCoordinates.spiral_x}
-            y={annotationCoordinates.spiral_y}
-            class="annotations"
-            fill="#EEE7EF">{data[data.length - 1].transfered_date}</text
-          >
-          {#each data as person, index}
-            <g
-              transform="translate({person.spiral_x} {person.spiral_y}), scale({0.8 -
-                person.id / 150})"
-              class="{person.name} flower"
-              on:mouseover={() => {
-                if (hovered === null || hovered.data.id != person.id) {
-                  hovered = {
-                    x: person.spiral_x + width / 2,
-                    y: person.spiral_y + height / 2,
-                    data: person,
-                  };
-                }
-              }}
-              on:focus={() => {
-                hovered = person;
-              }}
-              role="tooltip"
+    </svg>
+  </div>
+</div>
+<div class="right">
+  <div class="graph-container spiral">
+    {#if data}
+      <div class="inner-container">
+        <svg
+          {height}
+          {width}
+          viewBox="-{width / 2} -{height / 2} {width} {height}"
+          on:mouseleave={() => {
+            hovered = null;
+          }}
+          role="tooltip"
+        >
+          <g>
+            <text x="0" y="-10" class="annotations" fill="#EEE7EF"
+              >{data[0].transfered_date}</text
             >
-              {#key hovered}
-                <Flower {person} shape={"petals"} {hovered} />
-              {/key}
-            </g>
-          {/each}
-        </g></svg
-      >
-      {#if hovered}
-        <Tooltip data={hovered} {width} {colorScale} />
-      {/if}
-    </div>
-  {/if}
+            <text
+              x={annotationCoordinates.spiral_x}
+              y={annotationCoordinates.spiral_y}
+              class="annotations"
+              fill="#EEE7EF">{data[data.length - 1].transfered_date}</text
+            >
+            {#each data as person, index}
+              <g
+                transform="translate({person.spiral_x} {person.spiral_y}), scale({0.8 -
+                  person.id / 150})"
+                class="{person.name} flower"
+                on:mouseover={() => {
+                  if (hovered === null || hovered.data.id != person.id) {
+                    hovered = {
+                      x: person.spiral_x + width / 2,
+                      y: person.spiral_y + height / 2,
+                      data: person,
+                    };
+                  }
+                }}
+                on:focus={() => {
+                  hovered = person;
+                }}
+                role="tooltip"
+              >
+                {#key hovered}
+                  <Flower {person} shape={"petals"} {hovered} />
+                {/key}
+              </g>
+            {/each}
+          </g></svg
+        >
+        {#if hovered}
+          <Tooltip data={hovered} {width} {colorScale} />
+        {/if}
+      </div>
+    {/if}
+  </div>
 </div>
 
 <style>
+  .left {
+    width: 500px;
+  }
+
+  .intro-viz {
+    margin-bottom: 50px;
+  }
+
   .graph-container {
     margin: 0 auto;
     display: flex;

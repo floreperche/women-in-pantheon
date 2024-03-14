@@ -2,6 +2,7 @@
   export let person;
   export let shape;
   export let hovered;
+
   let purplePetals = [];
   purplePetals.length = 4;
   let orangePetals = [];

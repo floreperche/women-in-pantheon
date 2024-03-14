@@ -83,12 +83,18 @@
   let hovered = null;
 </script>
 
-<div class="graph-container tree">
+<div class="left">
+  <div class="intro-viz">
+    Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
+    accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
+    netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
+    ornare tristique ut vulputate.
+  </div>
   <!-- legend -->
   <div class="legend">
     <div class="legend">
-      <svg {width} height={marginHeight}>
-        <g transform="translate({width / 2 - 200} 25), scale({0.7})">
+      <svg width="500" height={marginHeight}>
+        <g transform="translate({500 / 2 - 150} 25), scale({0.7})">
           <Flower
             person={{ sex: "W", status: "Panthéonisée" }}
             shape={"petals"}
@@ -107,7 +113,7 @@
             >
           </text></g
         >
-        <g transform="translate({width / 2 + 200} 25), scale({0.7})">
+        <g transform="translate({500 / 2 + 120} 25), scale({0.7})">
           <Flower
             person={{ sex: "W", status: "Partenaire" }}
             shape={"petals"}
@@ -129,97 +135,108 @@
       </svg>
     </div>
   </div>
-  <div class="inner-container">
-    <svg {width} {height} class="viz">
-      <g class="tick">
-        {#each yTicks as tick, i}
-          <text
-            fill={tick % 20 ? "none" : "#EEE7EF"}
-            x="10"
-            y={yScale(tick)}
-            dominant-baseline="middle"
-            text-anchor="middle">{tick}</text
+</div>
+<div class="right">
+  <div class="graph-container tree">
+    <div class="inner-container">
+      <svg {width} {height} class="viz">
+        <g class="tick">
+          {#each yTicks as tick, i}
+            <text
+              fill={tick % 20 ? "none" : "#EEE7EF"}
+              x="10"
+              y={yScale(tick)}
+              dominant-baseline="middle"
+              text-anchor="middle">{tick}</text
+            >
+            <line
+              x1="25"
+              x2="35"
+              y1={yScale(tick)}
+              y2={yScale(tick)}
+              stroke="#EEE7EF"
+            />
+          {/each}
+          <text fill="#EEE7EF" x="10" y="20" dominant-baseline="middle"
+            >Year gap between death and panthéonisation</text
           >
-          <line
-            x1="25"
-            x2="35"
-            y1={yScale(tick)}
-            y2={yScale(tick)}
-            stroke="#EEE7EF"
-          />
-        {/each}
-        <text fill="#EEE7EF" x="10" y="20" dominant-baseline="middle"
-          >Year gap between death and panthéonisation</text
-        >
-      </g>
-
-      <g
-        transform="translate({width / 2} {height - 20}), scale(0.8)"
-        class="flower"
-      >
-        <path
-          fill="#eee7ef"
-          stroke="none"
-          stroke-width="6"
-          d="M48.1,-66.9C63,-55.4,76.2,-42.2,82.6,-26C89,-9.8,88.5,9.4,81.8,25.5C75,41.5,62,54.4,47.3,62.6C32.6,70.8,16.3,74.3,0.2,74C-15.9,73.7,-31.7,69.6,-43.7,60.6C-55.7,51.5,-63.9,37.4,-71,21.6C-78.2,5.8,-84.4,-11.8,-81.9,-28.7C-79.3,-45.6,-68,-61.8,-52.9,-73.2C-37.8,-84.6,-18.9,-91.3,-1.1,-89.7C16.6,-88.2,33.2,-78.4,48.1,-66.9Z"
-          transform="scale(0.2)"
-          fill-opacity="100%"
-        />
-      </g>
-      {#each womenData as women, i}
-        <path
-          stroke="#eee7ef"
-          stroke-width="3"
-          stroke-opacity="0.6"
-          stroke-linecap="round"
-          fill="none"
-          d={linkPathGenerator(
-            {
-              x: xScale(i),
-              y: yScale(women.gap_death_transfered),
-              parent: { x: width / 2, y: height - 20 },
-            },
-            i
-          )}
-        />
-        <g
-          on:mouseover={() => {
-            if (hovered === null || hovered.data.id != women.id) {
-              hovered = {
-                x: xScale(i),
-                y: yScale(women.gap_death_transfered),
-                data: women,
-              };
-            }
-          }}
-          on:focus={() => {
-            if (hovered === null || hovered.data.id != women.id) {
-              hovered = {
-                x: xScale(i),
-                y: yScale(women.gap_death_transfered),
-                data: women,
-              };
-            }
-          }}
-          role="tooltip"
-          on:mouseleave={() => {
-            hovered = null;
-          }}
-          transform="translate({xScale(i)} {yScale(
-            women.gap_death_transfered
-          )})"
-        >
-          <Flower person={women} shape={"petals"} hovered="" />
         </g>
-      {/each}
-    </svg>
-    {#if hovered}
-      <Tooltip data={hovered} {width} {colorScale} />
-    {/if}
+
+        <g
+          transform="translate({width / 2} {height - 20}), scale(0.8)"
+          class="flower"
+        >
+          <path
+            fill="#eee7ef"
+            stroke="none"
+            stroke-width="6"
+            d="M48.1,-66.9C63,-55.4,76.2,-42.2,82.6,-26C89,-9.8,88.5,9.4,81.8,25.5C75,41.5,62,54.4,47.3,62.6C32.6,70.8,16.3,74.3,0.2,74C-15.9,73.7,-31.7,69.6,-43.7,60.6C-55.7,51.5,-63.9,37.4,-71,21.6C-78.2,5.8,-84.4,-11.8,-81.9,-28.7C-79.3,-45.6,-68,-61.8,-52.9,-73.2C-37.8,-84.6,-18.9,-91.3,-1.1,-89.7C16.6,-88.2,33.2,-78.4,48.1,-66.9Z"
+            transform="scale(0.2)"
+            fill-opacity="100%"
+          />
+        </g>
+        {#each womenData as women, i}
+          <path
+            stroke="#eee7ef"
+            stroke-width="3"
+            stroke-opacity="0.6"
+            stroke-linecap="round"
+            fill="none"
+            d={linkPathGenerator(
+              {
+                x: xScale(i),
+                y: yScale(women.gap_death_transfered),
+                parent: { x: width / 2, y: height - 20 },
+              },
+              i
+            )}
+          />
+          <g
+            on:mouseover={() => {
+              if (hovered === null || hovered.data.id != women.id) {
+                hovered = {
+                  x: xScale(i),
+                  y: yScale(women.gap_death_transfered),
+                  data: women,
+                };
+              }
+            }}
+            on:focus={() => {
+              if (hovered === null || hovered.data.id != women.id) {
+                hovered = {
+                  x: xScale(i),
+                  y: yScale(women.gap_death_transfered),
+                  data: women,
+                };
+              }
+            }}
+            role="tooltip"
+            on:mouseleave={() => {
+              hovered = null;
+            }}
+            transform="translate({xScale(i)} {yScale(
+              women.gap_death_transfered
+            )}), scale(1.1)"
+          >
+            <Flower person={women} shape={"petals"} {hovered} />
+          </g>
+        {/each}
+      </svg>
+      {#if hovered}
+        <Tooltip data={hovered} {width} {colorScale} />
+      {/if}
+    </div>
   </div>
 </div>
 
 <style>
+  .left {
+    width: 500px;
+  }
+
+  .intro-viz {
+    margin-bottom: 50px;
+  }
   .graph-container {
     margin: 0 auto;
     display: flex;
