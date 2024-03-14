@@ -4,19 +4,22 @@
   import BeeSwarmViz from "./components/BeeSwarmViz.svelte";
   import TreeDiagram from "./components/TreeDiagram.svelte";
 
+  // Basic dimensions
   const margin = { top: 10, right: 30, left: 30, bottom: 30 };
-
   let width = 600;
   let height = 500;
   let marginHeight = 100;
 
+  // Manage navigation
   const vizOptions = [1, 2, 3];
   let selectedOption = 1;
 </script>
 
 <main>
-  <div class="intro">
+  <!-- Header -->
+  <div class="header">
     <h1>Aux grandes femmes, la Nation reconnaissante?</h1>
+    <!-- Navigation -->
     <nav>
       {#each vizOptions as option}
         <div
@@ -36,7 +39,9 @@
     </nav>
   </div>
 
+  <!-- Main content -->
   <div class="main-content">
+    <!-- Visualisation choise -->
     {#if selectedOption === 1}
       <SpiralViz {data} {width} {height} {marginHeight} />
     {/if}
@@ -48,6 +53,7 @@
     {/if}
   </div>
 
+  <!-- Footer -->
   <div class="bottom-space"></div>
 </main>
 
@@ -55,10 +61,11 @@
   main {
     background-color: #120833;
   }
-  .intro {
+  .header {
     font-family: "Cabinet Grotesk", sans-serif;
     text-align: center;
     padding: 30px;
+    padding-bottom: 10px;
     max-width: 1200px;
     margin: 0 auto;
   }

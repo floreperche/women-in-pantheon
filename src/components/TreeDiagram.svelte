@@ -1,5 +1,5 @@
 <script>
-  import { scaleLinear, scaleOrdinal } from "d3";
+  import { scaleLinear } from "d3";
   import Flower from "./Flower.svelte";
   import Tooltip from "./Tooltip.svelte";
 
@@ -8,8 +8,7 @@
   export let height;
   export let marginHeight;
 
-  // Scale for axes of flowers
-
+  // Scales for flower axes
   let xScale = scaleLinear()
     .domain([0, 6])
     .range([80, width - 50]);
@@ -18,9 +17,7 @@
     .domain([0, 65])
     .range([height - 200, 50]);
 
-  const colorRange = ["#F34C63", "#7480D2"];
-  let colorScale = scaleOrdinal().domain(["W", "M"]).range(colorRange);
-
+  // Women dataset generation
   let womenData = [];
   data
     .sort((a, b) => a.transfered_date - b.transfered_date)
@@ -30,8 +27,7 @@
       }
     });
 
-  // $: console.log(womenData);
-
+  // Line path generation
   let linkPathGenerator = (d, i) => {
     let result;
     console.log(i);
@@ -83,13 +79,16 @@
   let hovered = null;
 </script>
 
+<!-- Left elements -->
 <div class="left">
+  <h2>How long did it take for women to receive recognition</h2>
   <div class="intro-viz">
     Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
     accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
     netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
     ornare tristique ut vulputate.
   </div>
+
   <!-- legend -->
   <div class="legend">
     <div class="legend">
@@ -136,10 +135,13 @@
     </div>
   </div>
 </div>
+
+<!-- Graph -->
 <div class="right">
   <div class="graph-container tree">
     <div class="inner-container">
       <svg {width} {height} class="viz">
+        <!-- Year gap labels -->
         <g class="tick">
           {#each yTicks as tick, i}
             <text
@@ -162,6 +164,9 @@
           >
         </g>
 
+        <!-- Data points and lines -->
+
+        <!-- White seed -->
         <g
           transform="translate({width / 2} {height - 20}), scale(0.8)"
           class="flower"
@@ -176,6 +181,7 @@
           />
         </g>
         {#each womenData as women, i}
+          <!-- Lines -->
           <path
             stroke="#eee7ef"
             stroke-width="3"
@@ -191,6 +197,8 @@
               i
             )}
           />
+
+          <!-- Flowers -->
           <g
             on:mouseover={() => {
               if (hovered === null || hovered.data.id != women.id) {
@@ -222,8 +230,10 @@
           </g>
         {/each}
       </svg>
+
+      <!-- Tooltip -->
       {#if hovered}
-        <Tooltip data={hovered} {width} {colorScale} />
+        <Tooltip data={hovered} {width} />
       {/if}
     </div>
   </div>

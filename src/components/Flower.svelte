@@ -3,11 +3,13 @@
   export let shape;
   export let hovered;
 
+  // Building flower shapes
   let purplePetals = [];
   purplePetals.length = 4;
   let orangePetals = [];
   orangePetals.length = 9;
 
+  // Managing flower options
   $: flowerType = person.sex;
   $: flowerStyle = person.status === "Panthéonisée" ? "fill" : "stroke";
   $: flowerShape = shape;
@@ -18,6 +20,7 @@
     : "no-highlight";
 </script>
 
+<!-- Color gradients -->
 <defs>
   <linearGradient id="orangeGrad" x1="0%" x2="0%" y1="100%" y2="0%">
     <stop offset="8%" stop-color="#F34C63" />

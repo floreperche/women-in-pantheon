@@ -1,6 +1,5 @@
 <script>
   import timeData from "../assets/time_periods.json";
-
   import Flower from "./Flower.svelte";
   import Tooltip from "./Tooltip.svelte";
 
@@ -19,12 +18,10 @@
   export let margin;
   export let marginHeight;
 
+  // Beeswarm generator
   $: xScale = scaleLinear()
     .domain([1791, 2024])
     .range([0 + margin.left, width - margin.right]);
-
-  const colorRange = ["#F34C63", "#7480D2"];
-  let colorScale = scaleOrdinal().domain(["W", "M"]).range(colorRange);
 
   const RADIUS = 8;
 
@@ -58,19 +55,21 @@
   // Ticks
   let xTicks = [1800, 1850, 1900, 1950, 2000];
 
-  // periods
+  // Animation management
   let periodHovered = timeData[timeData.length - 1];
-
   let hovered = null;
 </script>
 
+<!-- Left elements -->
 <div class="left">
+  <h2>Historical timeline of transfered persons</h2>
   <div class="intro-viz">
     Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
     accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
     netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
     ornare tristique ut vulputate.
   </div>
+
   <!-- legend -->
   <div class="legend">
     <svg width="500" height={marginHeight}>
@@ -144,6 +143,7 @@
   </div>
 </div>
 
+<!-- Graph -->
 <div class="right">
   <div class="graph-container bee">
     <div
@@ -154,9 +154,9 @@
       role="tooltip"
     >
       <svg {height} {width}>
-        <!-- Axes, Gridlines and labels -->
-        {#each timeData as period}
-          <g>
+        <!-- Period label -->
+        <g>
+          {#each timeData as period}
             <rect
               x={xScale(period.start_date)}
               y="40"
@@ -179,32 +179,50 @@
             <text
               fill={periodHovered === period ? "white" : "none"}
               x={(xScale(period.end_date) + xScale(period.start_date)) / 2}
-              y="20"
+              y="14"
               text-anchor={periodHovered
                 ? periodHovered.id > 2
                   ? "middle"
                   : "left"
                 : "none"}>{period.name}</text
             >
-          </g>
-        {/each}
+            <text
+              fill={periodHovered === period ? "white" : "none"}
+              x={(xScale(period.end_date) + xScale(period.start_date)) / 2}
+              y="32"
+              text-anchor={periodHovered
+                ? periodHovered.id > 2
+                  ? "middle"
+                  : "left"
+                : "none"}
+              class="period-date">({period.start_date}-{period.end_date})</text
+            >
+          {/each}
+        </g>
+
+        <!-- xScale labels -->
         {#each xTicks as tick, i}
           <g class="tick" transform="translate({xScale(tick)},0)">
             <text
               fill={i % 2 ? "none" : "#EEE7EF"}
               x="0"
-              y={height - 10}
+              y={height - 40}
               text-anchor="middle">{tick}</text
             >
             <line
               x1="0"
               x2="0"
-              y1={height - 30}
-              y2={height - 40}
+              y1={height - 60}
+              y2={height - 70}
               stroke="hsla(215,15%,91%,1"
             />
           </g>
-        {/each}
+        {/each}<text
+          fill="#eee7ef"
+          x={width - 190}
+          y={height - 10}
+          text-anchor="right">Transfered date →</text
+        >
 
         <!-- Data points -->
         {#each nodes as person, index}
@@ -237,8 +255,10 @@
           </g>
         {/each}
       </svg>
+
+      <!-- Tooltip -->
       {#if hovered}
-        <Tooltip data={hovered} {width} {colorScale} />
+        <Tooltip data={hovered} {width} />
       {/if}
     </div>
   </div>
@@ -262,5 +282,9 @@
 
   .inner-container {
     position: relative;
+  }
+
+  .period-date {
+    font-size: 12px;
   }
 </style>

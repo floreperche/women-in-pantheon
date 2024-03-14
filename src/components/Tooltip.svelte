@@ -1,19 +1,23 @@
 <script>
+  import { scaleOrdinal } from "d3";
   export let data;
   export let width;
-  export let colorScale;
-
   import { fly, fade } from "svelte/transition";
 
+  // Color scale
+  const colorRange = ["#F34C63", "#7480D2"];
+  let colorScale = scaleOrdinal().domain(["W", "M"]).range(colorRange);
+
+  // Managing overlap
   const maxWidth = 180;
   const nudge = 20;
   $: xPosition =
     data.x + maxWidth + nudge > width
       ? data.x - maxWidth - nudge
       : data.x + nudge;
-  // $: console.log(xPosition);
 </script>
 
+<!-- Tooltip -->
 <div
   class="tooltip"
   style="left: {xPosition}px; top: {data.y + 20}px"
@@ -23,6 +27,7 @@
   <h2>
     {data.data.name} ({data.data.birth_date}-{data.data.death_date})
   </h2>
+  <!-- Display is Panthéonisé -->
   {#if data.data.status === "Panthéonisée"}
     <p>
       {#if data.data.sex === "W"}Panthéonisée en <span
@@ -36,6 +41,7 @@
         >
       {/if}
     </p>
+    <!-- Display is not Panthéonisé -->
   {:else}
     <p>
       Repose au Panthéon depuis <span
@@ -58,13 +64,6 @@
       top 300ms ease,
       left 300ms ease;
     max-width: 180px;
-  }
-
-  h2 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 6px;
-    width: 100%;
   }
 
   .tooltip h2,

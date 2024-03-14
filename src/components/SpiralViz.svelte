@@ -7,10 +7,7 @@
   export let height;
   export let marginHeight;
 
-  const colorRange = ["#F34C63", "#7480D2"];
-  let colorScale = scaleOrdinal().domain(["W", "M"]).range(colorRange);
-
-  // Spiral viz
+  // Manage spiral shape
   const pointsPerRotation = 20;
   let rank = 1;
   const inner = 30;
@@ -44,13 +41,19 @@
   let hovered = null;
 </script>
 
+<!-- Left elements -->
 <div class="left">
+  <h2 class="subtitle">
+    Overview of all the persons transfered in Pantheon, since the French
+    Revolution
+  </h2>
   <div class="intro-viz">
     Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
     accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
     netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
     ornare tristique ut vulputate.
   </div>
+
   <!-- legend -->
   <div class="legend">
     <svg width="500" height={marginHeight}>
@@ -123,6 +126,8 @@
     </svg>
   </div>
 </div>
+
+<!-- Graph -->
 <div class="right">
   <div class="graph-container spiral">
     {#if data}
@@ -136,6 +141,7 @@
           }}
           role="tooltip"
         >
+          <!-- Year annotations -->
           <g>
             <text x="0" y="-10" class="annotations" fill="#EEE7EF"
               >{data[0].transfered_date}</text
@@ -146,6 +152,8 @@
               class="annotations"
               fill="#EEE7EF">{data[data.length - 1].transfered_date}</text
             >
+
+            <!-- Data points -->
             {#each data as person, index}
               <g
                 transform="translate({person.spiral_x} {person.spiral_y}), scale({0.8 -
@@ -172,8 +180,10 @@
             {/each}
           </g></svg
         >
+
+        <!-- Tooltip -->
         {#if hovered}
-          <Tooltip data={hovered} {width} {colorScale} />
+          <Tooltip data={hovered} {width} />
         {/if}
       </div>
     {/if}
