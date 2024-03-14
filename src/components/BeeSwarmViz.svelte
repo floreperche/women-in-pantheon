@@ -212,7 +212,13 @@
             }
           }}
           on:focus={() => {
-            hovered = person;
+            if (hovered === null || hovered.data.id != person.id) {
+              hovered = {
+                x: person.x,
+                y: person.y,
+                data: person,
+              };
+            }
           }}
           role="tooltip"
           on:mouseleave={() => {

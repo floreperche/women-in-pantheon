@@ -3,7 +3,6 @@
   import SpiralViz from "./components/SpiralViz.svelte";
   import BeeSwarmViz from "./components/BeeSwarmViz.svelte";
   import TreeDiagram from "./components/TreeDiagram.svelte";
-  import TreeDiagramV2 from "./components/TreeDiagramV2.svelte";
 
   const margin = { top: 10, right: 30, left: 30, bottom: 30 };
 
@@ -11,7 +10,7 @@
   let height = 500;
   let marginHeight = 100;
 
-  const VizOptions = [1, 2, 3, 4];
+  const VizOptions = [1, 2, 3];
   let selectedOption = 1;
 </script>
 
@@ -60,9 +59,6 @@
       {/if}
       {#if selectedOption === 3}
         <TreeDiagram {data} {width} {height} {marginHeight} />
-      {/if}
-      {#if selectedOption === 4}
-        <TreeDiagramV2 {data} {width} {height} {marginHeight} />
       {/if}
     </div>
   </div>

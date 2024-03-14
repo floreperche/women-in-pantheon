@@ -19,12 +19,12 @@
 
 <defs>
   <linearGradient id="orangeGrad" x1="0%" x2="0%" y1="100%" y2="0%">
-    <stop offset="0%" stop-color="#F34C63" />
-    <stop offset="40%" stop-color="#120833" />
+    <stop offset="8%" stop-color="#F34C63" />
+    <stop offset="30%" stop-color="transparent" />
   </linearGradient>
   <linearGradient id="purpleGrad" x1="0%" x2="0%" y1="100%" y2="0%">
-    <stop offset="0%" stop-color="#7480D2" />
-    <stop offset="70%" stop-color="#120833" />
+    <stop offset="20%" stop-color="#7480D2" />
+    <stop offset="70%" stop-color="transparent" />
   </linearGradient>
 </defs>
 
@@ -40,7 +40,7 @@
         <path
           fill={flowerStyle === "fill" ? "#F34C63" : "#120833"}
           stroke={flowerStyle === "stroke" ? "url(#orangeGrad)" : "none"}
-          stroke-width="4"
+          stroke-width="2.5"
           d="M20.7,2.5C20.7,15.4,10.4,30.8,2.4,30.8C-5.7,30.8,-11.3,15.4,-11.3,2.5C-11.3,-10.3,-5.7,-20.7,2.4,-20.7C10.4,-20.7,20.7,-10.3,20.7,2.5Z"
           transform="rotate({80 * i})"
           fill-opacity={flowerStyle === "fill" ? "50%" : "100%"}
@@ -71,7 +71,7 @@
         <path
           fill={flowerStyle === "fill" ? "#7480D2" : "#120833"}
           stroke={flowerStyle === "stroke" ? "url(#purpleGrad)" : "none"}
-          stroke-width="8"
+          stroke-width="9"
           d="M88 14C88 50 44 100 15.7 100C-12.5 100 -25 50 -25 14C-25 -22 -12.5 -44 15.7 -44C44 -44 88 -22 88 14"
           transform="rotate({90 * i})scale(0.3)"
           fill-opacity={flowerStyle === "fill" ? "50%" : "10%"}
