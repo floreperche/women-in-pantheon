@@ -3,13 +3,7 @@
   import Flower from "./Flower.svelte";
   import Tooltip from "./Tooltip.svelte";
 
-  import {
-    forceSimulation,
-    forceX,
-    forceY,
-    forceCollide,
-    scaleOrdinal,
-  } from "d3";
+  import { forceSimulation, forceX, forceY, forceCollide } from "d3";
   import { scaleLinear } from "d3";
 
   export let data;
@@ -33,17 +27,17 @@
         "x",
         forceX()
           .x((d) => xScale(d.transfered_date))
-          .strength(0.9)
+          .strength(1)
       )
       .force(
         "y",
         forceY()
           .y((d) => height / 2)
-          .strength(0.01)
+          .strength(0.02)
       )
       .force("collide", forceCollide().radius(RADIUS))
-      .alpha(0.8)
-      .alphaDecay(0.0005)
+      .alpha(0.7)
+      .alphaDecay(0.005)
       .restart();
   }
 

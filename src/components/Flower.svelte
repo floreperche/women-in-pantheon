@@ -1,4 +1,7 @@
 <script>
+  import { tweened } from "svelte/motion";
+  import { cubicOut } from "svelte/easing";
+
   export let person;
   export let shape;
   export let hovered;
@@ -35,8 +38,9 @@
 <!-- Orange flower -->
 {#if flowerType === "W"}
   <g
-    transform={flowerStatus === "hightlighted" ? "scale(1.2)" : ""}
+    transform={flowerStatus === "hightlighted" ? `scale(1.2), rotate(45)` : ""}
     opacity={flowerStatus === "faded" ? "0.4" : ""}
+    class:active={flowerStatus === "highlighted"}
   >
     <!-- Petals -->
     {#if flowerShape === "petals"}
@@ -65,7 +69,7 @@
   <!-- Purple flower -->
 {:else if flowerType === "M"}
   <g
-    transform={flowerStatus === "hightlighted" ? "scale(1.2)" : ""}
+    transform={flowerStatus === "hightlighted" ? `scale(1.2), rotate(45)` : ""}
     opacity={flowerStatus === "faded" ? "0.4" : ""}
   >
     <!-- Petals -->

@@ -1,7 +1,6 @@
 <script>
   import Flower from "./Flower.svelte";
   import Tooltip from "./Tooltip.svelte";
-  import { scaleOrdinal } from "d3";
   export let data;
   export let width;
   export let height;
@@ -9,36 +8,48 @@
 
   // Manage spiral shape
   const pointsPerRotation = 20;
-  let rank = 1;
   const inner = 30;
-  const param = 0.4;
+  const spiralProximity = 0.4;
 
   $: data
     .sort((a, b) => a.transfered_date - b.transfered_date)
-    .map((e) => {
+    .map((e, i) => {
+      let rank = i + 1;
       e["rank"] = rank;
       e["spiral_x"] =
-        (inner + rank / param) *
+        (inner + rank / spiralProximity) *
         Math.cos((rank / pointsPerRotation) * 2 * Math.PI);
       e["spiral_y"] =
-        (inner + rank / param) *
+        (inner + rank / spiralProximity) *
         Math.sin((rank / pointsPerRotation) * 2 * Math.PI);
-      // processedData.push(e);
-      rank++;
+      return e;
     });
 
   // Final year annotation
   let annotationCoordinates = {
     spiral_x:
-      (inner + (data.length + 1) / param) *
+      (inner + (data.length + 1) / spiralProximity) *
       Math.cos(((data.length + 1) / pointsPerRotation) * 2 * Math.PI),
     spiral_y:
-      (inner + (data.length + 1) / param) *
+      (inner + (data.length + 1) / spiralProximity) *
       Math.sin(((data.length + 1) / pointsPerRotation) * 2 * Math.PI),
   };
 
   // Tooltip
   let hovered = null;
+
+  // Flower rotation
+  const getTransformation = (person) => {
+    if (hovered && hovered.data.id === person.id) {
+      return `translate(${person.spiral_x} ${person.spiral_y}), scale(${
+        0.8 - person.id / 150
+      }), rotate(45)`;
+    } else {
+      return `translate(${person.spiral_x} ${person.spiral_y}), scale(${
+        0.8 - person.id / 150
+      })`;
+    }
+  };
 </script>
 
 <!-- Left elements -->
@@ -159,28 +170,28 @@
 
             <!-- Data points -->
             {#each data as person, index}
-              <g
-                transform="translate({person.spiral_x} {person.spiral_y}), scale({0.8 -
-                  person.id / 150})"
-                class="{person.name} flower"
-                on:mouseover={() => {
-                  if (hovered === null || hovered.data.id != person.id) {
-                    hovered = {
-                      x: person.spiral_x + width / 2,
-                      y: person.spiral_y + height / 2,
-                      data: person,
-                    };
-                  }
-                }}
-                on:focus={() => {
-                  hovered = person;
-                }}
-                role="tooltip"
-              >
-                {#key hovered}
+              {#key hovered}
+                <g
+                  transform="translate({person.spiral_x} {person.spiral_y}), scale({0.8 -
+                    person.id / 150})"
+                  class="flower-group"
+                  on:mouseover={() => {
+                    if (hovered === null || hovered.data.id != person.id) {
+                      hovered = {
+                        x: person.spiral_x + width / 2,
+                        y: person.spiral_y + height / 2,
+                        data: person,
+                      };
+                    }
+                  }}
+                  on:focus={() => {
+                    hovered = person;
+                  }}
+                  role="tooltip"
+                >
                   <Flower {person} shape={"petals"} {hovered} />
-                {/key}
-              </g>
+                </g>
+              {/key}
             {/each}
           </g></svg
         >
@@ -213,5 +224,9 @@
 
   .inner-container {
     position: relative;
+  }
+
+  .flower-group {
+    transition: 9s;
   }
 </style>

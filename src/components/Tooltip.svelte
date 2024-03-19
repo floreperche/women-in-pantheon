@@ -1,5 +1,6 @@
 <script>
   import { scaleOrdinal } from "d3";
+  import { tweened } from "svelte/motion";
   export let data;
   export let width;
   import { fly, fade } from "svelte/transition";
