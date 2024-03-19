@@ -24,9 +24,9 @@
   in:fly={{ y: 10, duration: 200, delay: 200 }}
   out:fade
 >
-  <h2>
+  <h3>
     {data.data.name} ({data.data.birth_date}-{data.data.death_date})
-  </h2>
+  </h3>
   <!-- Display is Panthéonisé -->
   {#if data.data.status === "Panthéonisée"}
     <p>
@@ -66,8 +66,8 @@
     max-width: 180px;
   }
 
-  .tooltip h2,
-  .tooltip h2 span,
+  .tooltip h3,
+  .tooltip h3 span,
   p {
     color: #120833;
   }

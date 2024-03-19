@@ -43,15 +43,19 @@
 
 <!-- Left elements -->
 <div class="left">
-  <h2 class="subtitle">
-    Overview of all the persons transfered in Pantheon, since the French
-    Revolution
-  </h2>
+  <h2 class="subtitle">La faible représentativité des femmes au Panthéon</h2>
   <div class="intro-viz">
-    Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
-    accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
-    netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
-    ornare tristique ut vulputate.
+    <p>
+      Depuis la Révolution Française, le Panthéon à Paris est un lieu où l’on
+      décide d’inhumer des personnalités faisant la fierté de la France. Ces
+      “panthéonisés”, conformément à leur volonté, sont parfois accompagnés de
+      leur partenaire.
+    </p>
+    <p>
+      Sur la totalité des personnes reposant actuellement au Panthéon, les
+      femmes se comptent qu’au nombre de sept. Parmi elles, cinq ont été
+      panthéonisées.
+    </p>
   </div>
 
   <!-- legend -->

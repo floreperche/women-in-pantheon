@@ -62,12 +62,17 @@
 
 <!-- Left elements -->
 <div class="left">
-  <h2>Historical timeline of transfered persons</h2>
+  <h2>Un revirement siginificatif ces trente dernières années</h2>
   <div class="intro-viz">
-    Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
-    accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
-    netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
-    ornare tristique ut vulputate.
+    <p>
+      C'est à la fin du XXème siècle que la physicienne et chimiste Marie
+      Curie-Sklodowska devient la première femme panthéonisée. Elle le fût au
+      même moment que son mari, Pierre Curie.
+    </p>
+    <p>
+      À partir de ce moment là, 40% des personnes qui ont bénéficié de cette
+      reconnaissance nationale ont été des femmes.
+    </p>
   </div>
 
   <!-- legend -->
@@ -219,9 +224,9 @@
           </g>
         {/each}<text
           fill="#eee7ef"
-          x={width - 190}
+          x={width - 320}
           y={height - 10}
-          text-anchor="right">Transfered date →</text
+          text-anchor="right">Année du transfert au Panthéon →</text
         >
 
         <!-- Data points -->

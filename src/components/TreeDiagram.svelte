@@ -81,12 +81,18 @@
 
 <!-- Left elements -->
 <div class="left">
-  <h2>How long did it take for women to receive recognition</h2>
+  <h2>Une reconnaissance plus ou moins rapide</h2>
   <div class="intro-viz">
-    Lorem ipsum dolor sit amet consectetur. Interdum pellentesque proin duis
-    accumsan rhoncus proin in eget viverra. Malesuada duis amet proin mauris
-    netus fames. Auctor aliquam enim mollis placerat lorem magna cursus. Nunc
-    ornare tristique ut vulputate.
+    <p>
+      En moyenne, 26 ans se sont écoulés entre le décès et la panthéonisation de
+      ces femmes.
+    </p>
+    <p>
+      Mais ce chiffre cache des disparités significatives. En 2018, un an après
+      sa mort, Simone Veil est entrée au Panthéon. Trois ans plus tard, c’est à
+      Joséphine Baker que l’on a rendu hommage, cette fois-ci 46 ans après sa
+      mort.
+    </p>
   </div>
 
   <!-- legend -->
@@ -152,15 +158,15 @@
               text-anchor="middle">{tick}</text
             >
             <line
-              x1="25"
-              x2="35"
+              x1="5"
+              x2="15"
               y1={yScale(tick)}
               y2={yScale(tick)}
-              stroke="#EEE7EF"
+              stroke={tick % 20 ? "#EEE7EF" : "none"}
             />
           {/each}
-          <text fill="#EEE7EF" x="10" y="20" dominant-baseline="middle"
-            >Year gap between death and panthéonisation</text
+          <text fill="#EEE7EF" x="0" y="20" dominant-baseline="middle"
+            >Nombre d'années entre le décès et l'entrée au Panthéon</text
           >
         </g>
 
