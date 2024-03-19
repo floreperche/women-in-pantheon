@@ -14,10 +14,10 @@
 
   // Beeswarm generator
   $: xScale = scaleLinear()
-    .domain([1791, 2024])
+    .domain([selectedFilter.startDate, 2024])
     .range([0 + margin.left, width - margin.right]);
 
-  const RADIUS = 8;
+  const RADIUS = 9;
 
   const simulation = forceSimulation(data);
 
@@ -27,17 +27,17 @@
         "x",
         forceX()
           .x((d) => xScale(d.transfered_date))
-          .strength(1)
+          .strength(0.2)
       )
       .force(
         "y",
         forceY()
           .y((d) => height / 2)
-          .strength(0.02)
+          .strength(0.005)
       )
       .force("collide", forceCollide().radius(RADIUS))
-      .alpha(0.7)
-      .alphaDecay(0.005)
+      .alpha(0.99)
+      .alphaDecay(0)
       .restart();
   }
 
@@ -62,12 +62,12 @@
       value: "Cinquième République",
     },
   ];
-  let selectedFilter = null;
+  let selectedFilter = filters[0];
 </script>
 
 <!-- Left elements -->
 <div class="left">
-  <h2>Un revirement siginificatif ces trente dernières années</h2>
+  <h2>Un revirement significatif ces trente dernières années</h2>
   <div class="intro-viz">
     <p>
       C'est à la fin du XXème siècle que la physicienne et chimiste Marie
@@ -270,7 +270,7 @@
         <!-- Data points -->
         {#each nodes as person, index}
           <g
-            transform="translate({person.x} {person.y}), scale({0.85})"
+            transform="translate({person.x} {person.y}), scale({0.3})"
             on:mouseover={() => {
               if (hovered === null || hovered.data.id != person.id) {
                 hovered = {
@@ -294,7 +294,7 @@
               hovered = null;
             }}
           >
-            <Flower {person} shape={"middle"} {hovered} filter="" />
+            <Flower {person} shape={"petals"} {hovered} filter="" />
           </g>
         {/each}
       </svg>
@@ -338,13 +338,14 @@
   .filter-nav {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    align-items: center;
   }
 
   .filter-nav div {
     margin: 8px 0px;
     padding: 2px 10px;
     cursor: pointer;
+    width: 70%;
   }
 
   .filter-nav div:hover {

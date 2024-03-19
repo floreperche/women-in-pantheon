@@ -11,7 +11,11 @@
   let marginHeight = 100;
 
   // Manage navigation
-  const vizOptions = [1, 2, 3];
+  const vizOptions = [
+    { id: 1, value: "Vue d'ensemble" },
+    { id: 2, value: "Evolution au cours du temps" },
+    { id: 3, value: "Qui sont les femmes reconnues" },
+  ];
   let selectedOption = 1;
 </script>
 
@@ -25,16 +29,16 @@
         <div
           class="selection"
           on:click={() => {
-            selectedOption = option;
+            selectedOption = option.id;
           }}
           on:keydown={() => {
-            selectedOption = option;
+            selectedOption = option.id;
           }}
           role="menuitem"
           tabindex={1}
-          style="opacity : {selectedOption === option ? '100%' : '50%'}"
+          style="opacity : {selectedOption === option.id ? '100%' : '50%'}"
         >
-          Viz {option}
+          {option.value}
         </div>{/each}
     </nav>
   </div>
