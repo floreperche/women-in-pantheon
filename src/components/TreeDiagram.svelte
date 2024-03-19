@@ -30,7 +30,7 @@
   // Line path generation
   let linkPathGenerator = (d, i) => {
     let result;
-    console.log(i);
+    // console.log(i);
     if (1 < i && i < 5) {
       result =
         "M" +
@@ -77,6 +77,15 @@
 
   // Tooltip
   let hovered = null;
+
+  // Filters
+  const filters = [
+    { key: "other_art", value: "Artiste" },
+    { key: "politic", value: "Femme politique" },
+    { key: "resistant", value: "Résistante" },
+    { key: "science", value: "Scientifique" },
+  ];
+  let selectedFilter = null;
 </script>
 
 <!-- Left elements -->
@@ -97,6 +106,7 @@
 
   <!-- legend -->
   <div class="legend">
+    <h3>Légende</h3>
     <div class="legend">
       <svg width="500" height={marginHeight}>
         <g transform="translate({500 / 2 - 150} 25), scale({0.7})">
@@ -104,6 +114,7 @@
             person={{ sex: "W", status: "Panthéonisée" }}
             shape={"petals"}
             hovered=""
+            filter=""
           />
           <text
             fill="#EEE7EF"
@@ -123,6 +134,7 @@
             person={{ sex: "W", status: "Partenaire" }}
             shape={"petals"}
             hovered=""
+            filter=""
           />
           <text
             fill="#EEE7EF"
@@ -138,6 +150,37 @@
           </text></g
         >
       </svg>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter">
+    <h3>Filtrer</h3>
+    <div class="filter-nav">
+      {#each filters as filter}
+        <div
+          on:click={() => {
+            if (selectedFilter === filter) {
+              selectedFilter = null;
+            } else {
+              selectedFilter = filter;
+            }
+          }}
+          on:keydown={() => {
+            selectedFilter = filter;
+          }}
+          role="menuitem"
+          tabindex={1}
+          style="
+          background-color: {selectedFilter === filter ? '#eee7ef' : ''};
+          color:{selectedFilter === filter ? '#120833' : '#eee7ef'} ; 
+            border: 2px solid {selectedFilter === filter
+            ? '#120833'
+            : '#eee7ef'}"
+        >
+          {filter.value}
+        </div>
+      {/each}
     </div>
   </div>
 </div>
@@ -188,10 +231,19 @@
         </g>
         {#each womenData as women, i}
           <!-- Lines -->
+          {console.log(women)}
           <path
             stroke="#eee7ef"
             stroke-width="3"
-            stroke-opacity="0.6"
+            stroke-opacity={hovered
+              ? hovered.data.id === women.id
+                ? "0.8"
+                : "0.1"
+              : selectedFilter
+                ? women[selectedFilter.key] === "TRUE"
+                  ? "0.8"
+                  : "0.1"
+                : "0.6"}
             stroke-linecap="round"
             fill="none"
             d={linkPathGenerator(
@@ -232,7 +284,12 @@
               women.gap_death_transfered
             )}), scale(1.1)"
           >
-            <Flower person={women} shape={"petals"} {hovered} />
+            <Flower
+              person={women}
+              shape={"petals"}
+              {hovered}
+              filter={selectedFilter}
+            />
           </g>
         {/each}
       </svg>
@@ -263,5 +320,25 @@
 
   .inner-container {
     position: relative;
+  }
+
+  .filter {
+    margin-top: 14px;
+  }
+
+  .filter-nav {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .filter-nav div {
+    margin: 8px 0px;
+    padding: 2px 10px;
+    /* border-radius: 8px; */
+    cursor: pointer;
+  }
+
+  .filter-nav div:hover {
+    background-color: #eee7ef3f;
   }
 </style>

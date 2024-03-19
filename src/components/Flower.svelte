@@ -5,12 +5,15 @@
   export let person;
   export let shape;
   export let hovered;
+  export let filter;
 
   // Building flower shapes
   let purplePetals = [];
   purplePetals.length = 4;
   let orangePetals = [];
   orangePetals.length = 9;
+
+  // Filter check
 
   // Managing flower options
   $: flowerType = person.sex;
@@ -20,7 +23,11 @@
     ? hovered.data.id === person.id
       ? "hightlighted"
       : "faded"
-    : "no-highlight";
+    : filter
+      ? person[filter.key] === "TRUE"
+        ? "hightlighted"
+        : "faded"
+      : "no-highlight";
 </script>
 
 <!-- Color gradients -->

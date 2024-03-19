@@ -77,6 +77,7 @@
           person={{ sex: "W", status: "Panthéonisée" }}
           shape={"petals"}
           hovered=""
+          filter=""
         /><text
           fill="#EEE7EF"
           x="0"
@@ -95,6 +96,7 @@
           person={{ sex: "M", status: "Panthéonisée" }}
           shape={"petals"}
           hovered=""
+          filter=""
         /><text
           fill="#EEE7EF"
           x="0"
@@ -114,6 +116,7 @@
             person={{ sex: "W", status: "Partenaire" }}
             shape={"petals"}
             hovered=""
+            filter=""
           />
         </g>
 
@@ -122,6 +125,7 @@
             person={{ sex: "M", status: "Partenaire" }}
             shape={"petals"}
             hovered=""
+            filter=""
           /></g
         >
         <text
@@ -189,7 +193,7 @@
                   }}
                   role="tooltip"
                 >
-                  <Flower {person} shape={"petals"} {hovered} />
+                  <Flower {person} shape={"petals"} {hovered} filter="" />
                 </g>
               {/key}
             {/each}

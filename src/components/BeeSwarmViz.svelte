@@ -52,6 +52,17 @@
   // Animation management
   let periodHovered = timeData[timeData.length - 1];
   let hovered = null;
+
+  // Filters
+  const filters = [
+    { startDate: 1791, endDate: 2024, value: "Toute la période" },
+    {
+      startDate: 1958,
+      endDate: 2024,
+      value: "Cinquième République",
+    },
+  ];
+  let selectedFilter = null;
 </script>
 
 <!-- Left elements -->
@@ -71,12 +82,14 @@
 
   <!-- legend -->
   <div class="legend">
+    <h3>Légende</h3>
     <svg width="500" height={marginHeight}>
       <g transform="translate({500 / 2 - 200} 25), scale({1.4})"
         ><Flower
           person={{ sex: "W", status: "Panthéonisée" }}
           shape={"middle"}
           hovered=""
+          filter=""
         /><text
           fill="#EEE7EF"
           x="0"
@@ -95,6 +108,7 @@
           person={{ sex: "M", status: "Panthéonisée" }}
           shape={"middle"}
           hovered=""
+          filter=""
         /><text
           fill="#EEE7EF"
           x="0"
@@ -114,6 +128,7 @@
             person={{ sex: "W", status: "Partenaire" }}
             shape={"middle"}
             hovered=""
+            filter=""
           />
         </g>
 
@@ -122,6 +137,7 @@
             person={{ sex: "M", status: "Partenaire" }}
             shape={"middle"}
             hovered=""
+            filter=""
           /></g
         >
         <text
@@ -139,6 +155,34 @@
         </text></g
       >
     </svg>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter">
+    <h3>Filtrer</h3>
+    <div class="filter-nav">
+      {#each filters as filter}<div
+          on:click={() => {
+            if (selectedFilter === filter) {
+              selectedFilter = null;
+            } else {
+              selectedFilter = filter;
+            }
+          }}
+          on:keydown={() => {
+            selectedFilter = filter;
+          }}
+          role="menuitem"
+          tabindex={1}
+          style="
+        background-color: {selectedFilter === filter ? '#eee7ef' : ''};
+        color:{selectedFilter === filter ? '#120833' : '#eee7ef'} ; 
+          border: 2px solid #eee7ef"
+        >
+          {filter.value} ({filter.startDate}-{filter.endDate})
+        </div>
+      {/each}
+    </div>
   </div>
 </div>
 
@@ -250,7 +294,7 @@
               hovered = null;
             }}
           >
-            <Flower {person} shape={"middle"} {hovered} />
+            <Flower {person} shape={"middle"} {hovered} filter="" />
           </g>
         {/each}
       </svg>
@@ -285,5 +329,25 @@
 
   .period-date {
     font-size: 12px;
+  }
+
+  .filter {
+    margin-top: 14px;
+  }
+
+  .filter-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .filter-nav div {
+    margin: 8px 0px;
+    padding: 2px 10px;
+    cursor: pointer;
+  }
+
+  .filter-nav div:hover {
+    background-color: #eee7ef3f;
   }
 </style>
