@@ -1,4 +1,5 @@
 <script>
+  import { svg } from "d3";
   import Flower from "./Flower.svelte";
   import Tooltip from "./Tooltip.svelte";
   export let data;
@@ -9,7 +10,7 @@
   // Manage spiral shape
   const pointsPerRotation = 20;
   const inner = 30;
-  const spiralProximity = 0.4;
+  const spiralProximity = 0.41;
 
   $: data
     .sort((a, b) => a.transfered_date - b.transfered_date)
@@ -71,78 +72,87 @@
 
   <!-- legend -->
   <div class="legend">
-    <svg width="500" height={marginHeight}>
-      <g transform="translate({500 / 2 - 200} 25), scale({0.7})"
-        ><Flower
-          person={{ sex: "W", status: "Panthéonisée" }}
-          shape={"petals"}
-          hovered=""
-          filter=""
-        /><text
-          fill="#EEE7EF"
-          x="0"
-          y="60"
-          text-anchor="middle"
-          transform="scale({1})"
-          ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
-            x="0"
-            dy="1.2em"
-            text-anchor="middle">panthéonisée</tspan
+    <h3>Légende</h3>
+    <div class="legend-groups">
+      <div>
+        <svg width="250" height={marginHeight} class="legend-elements">
+          <g transform="translate(75 25), scale({0.7})"
+            ><Flower
+              person={{ sex: "W", status: "Panthéonisée" }}
+              shape={"petals"}
+              hovered=""
+              filter=""
+            /><text
+              fill="#EEE7EF"
+              x="0"
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
+              ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
+                x="0"
+                dy="1.2em"
+                text-anchor="middle">panthéonisée</tspan
+              >
+            </text></g
           >
-        </text></g
-      >
-      <g transform="translate({500 / 2 - 100} 25), scale({0.7})"
-        ><Flower
-          person={{ sex: "M", status: "Panthéonisée" }}
-          shape={"petals"}
-          hovered=""
-          filter=""
-        /><text
-          fill="#EEE7EF"
-          x="0"
-          y="60"
-          text-anchor="middle"
-          transform="scale({1})"
-          ><tspan x="0" dy="-0.5em" text-anchor="middle">Homme</tspan><tspan
-            x="0"
-            dy="1.2em"
-            text-anchor="middle">panthéonisé</tspan
-          ></text
-        ></g
-      >
-      <g transform="translate({500 / 2 + 120} 25), scale({0.7})">
-        <g transform="translate(-60 0)">
-          <Flower
-            person={{ sex: "W", status: "Partenaire" }}
-            shape={"petals"}
-            hovered=""
-            filter=""
-          />
-        </g>
+          <g transform="translate(175 25), scale({0.7})"
+            ><Flower
+              person={{ sex: "M", status: "Panthéonisée" }}
+              shape={"petals"}
+              hovered=""
+              filter=""
+            /><text
+              fill="#EEE7EF"
+              x="0"
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
+              ><tspan x="0" dy="-0.5em" text-anchor="middle">Homme</tspan><tspan
+                x="0"
+                dy="1.2em"
+                text-anchor="middle">panthéonisé</tspan
+              ></text
+            ></g
+          >
+        </svg>
+      </div>
+      <div>
+        <svg width="250" height={marginHeight} class="legend-elements">
+          <g transform="translate(125 25), scale({0.7})">
+            <g transform="translate(-60 0)">
+              <Flower
+                person={{ sex: "W", status: "Partenaire" }}
+                shape={"petals"}
+                hovered=""
+                filter=""
+              />
+            </g>
 
-        <g transform="translate(60 0)">
-          <Flower
-            person={{ sex: "M", status: "Partenaire" }}
-            shape={"petals"}
-            hovered=""
-            filter=""
-          /></g
-        >
-        <text
-          fill="#EEE7EF"
-          x="0"
-          y="60"
-          text-anchor="middle"
-          transform="scale({1})"
-        >
-          <tspan x="0" dy="-0.5em" text-anchor="middle"
-            >Femme / homme reposant au Panthéon,</tspan
-          ><tspan x="0" dy="1.2em" text-anchor="middle"
-            >sans être panthéonisé(e)</tspan
+            <g transform="translate(60 0)">
+              <Flower
+                person={{ sex: "M", status: "Partenaire" }}
+                shape={"petals"}
+                hovered=""
+                filter=""
+              /></g
+            >
+            <text
+              fill="#EEE7EF"
+              x="0"
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
+            >
+              <tspan x="0" dy="-0.5em" text-anchor="middle"
+                >Femme / homme reposant au Panthéon,</tspan
+              ><tspan x="0" dy="1.2em" text-anchor="middle"
+                >sans être panthéonisé(e)</tspan
+              >
+            </text></g
           >
-        </text></g
-      >
-    </svg>
+        </svg>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -211,11 +221,17 @@
 
 <style>
   .left {
-    width: 500px;
+    width: 400px;
   }
 
   .intro-viz {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+  }
+
+  .legend-groups {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 
   .graph-container {
@@ -232,5 +248,44 @@
 
   .flower-group {
     transition: 9s;
+  }
+
+  @media (max-width: 992px) {
+    .left {
+      width: 100%;
+      padding: 10px 20px;
+    }
+
+    h2 {
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .intro-viz {
+      font-size: 12px;
+
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .legend-groups {
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .legend-groups div {
+      display: flex;
+      justify-content: center;
+    }
+
+    .right {
+      transform: scale(0.6);
+      height: fit-content;
+    }
   }
 </style>

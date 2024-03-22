@@ -6,15 +6,15 @@
 
   // Basic dimensions
   const margin = { top: 10, right: 30, left: 30, bottom: 30 };
-  let width = 600;
+  let width = 500;
   let height = 500;
   let marginHeight = 100;
 
   // Manage navigation
   const vizOptions = [
     { id: 1, value: "Vue d'ensemble" },
-    { id: 2, value: "Evolution au cours du temps" },
-    { id: 3, value: "Qui sont les femmes reconnues" },
+    { id: 2, value: "Evolution" },
+    { id: 3, value: "En savoir plus" },
   ];
   let selectedOption = 1;
 </script>
@@ -43,6 +43,9 @@
     </nav>
   </div>
 
+  <div style="width:320px; background-color : blue; height : 20px;"></div>
+  <div style="width:576px; background-color : green; height : 20px;"></div>
+
   <!-- Main content -->
   <div class="main-content">
     <!-- Visualisation choise -->
@@ -68,15 +71,33 @@
   .header {
     font-family: "Cabinet Grotesk", sans-serif;
     text-align: center;
-    padding: 30px;
+    padding: 20px;
     padding-bottom: 10px;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
   h1 {
-    font-size: 40px;
+    font-size: 36px;
     margin-bottom: 20px;
+  }
+
+  nav {
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+  }
+
+  .selection {
+    width: 100%;
+    padding: 5px 15px;
+    text-align: center;
+    border-bottom: 3px solid;
+    cursor: pointer;
+    font-family: "Mochiy Pop One", sans-serif;
   }
 
   .main-content {
@@ -85,25 +106,30 @@
     gap: 30px;
   }
 
-  nav {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-
-  .selection {
-    height: auto;
-    width: 100%;
-    margin: 10px 0;
-    padding: 5px 15px;
-    text-align: center;
-    border-bottom: 3px solid;
-    cursor: pointer;
-    font-family: "Mochiy Pop One", sans-serif;
-  }
-
   .bottom-space {
-    height: 500px;
+    height: 10px;
+  }
+
+  @media (max-width: 992px) {
+    .header {
+      padding: 10px;
+    }
+    h1 {
+      font-size: 18px;
+    }
+    .selection {
+      font-size: 12px;
+      padding: 5px 4px;
+    }
+
+    .main-content {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .main-content {
+      gap: 10px;
+    }
   }
 </style>

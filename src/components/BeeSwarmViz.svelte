@@ -59,7 +59,7 @@
     {
       startDate: 1958,
       endDate: 2024,
-      value: "Cinquième République",
+      value: "Vème République",
     },
   ];
   let selectedFilter = filters[0];
@@ -83,78 +83,86 @@
   <!-- legend -->
   <div class="legend">
     <h3>Légende</h3>
-    <svg width="500" height={marginHeight}>
-      <g transform="translate({500 / 2 - 200} 25), scale({1.4})"
-        ><Flower
-          person={{ sex: "W", status: "Panthéonisée" }}
-          shape={"middle"}
-          hovered=""
-          filter=""
-        /><text
-          fill="#EEE7EF"
-          x="0"
-          y="60"
-          text-anchor="middle"
-          transform="scale({0.5})"
-          ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
-            x="0"
-            dy="1.2em"
-            text-anchor="middle">panthéonisée</tspan
+    <div class="legend-groups">
+      <div>
+        <svg width="250" height={marginHeight} class="legend-elements">
+          <g transform="translate(75 25), scale({0.7})"
+            ><Flower
+              person={{ sex: "W", status: "Panthéonisée" }}
+              shape={"petals"}
+              hovered=""
+              filter=""
+            /><text
+              fill="#EEE7EF"
+              x="0"
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
+              ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
+                x="0"
+                dy="1.2em"
+                text-anchor="middle">panthéonisée</tspan
+              >
+            </text></g
           >
-        </text></g
-      >
-      <g transform="translate({500 / 2 - 100} 25), scale({1.4})"
-        ><Flower
-          person={{ sex: "M", status: "Panthéonisée" }}
-          shape={"middle"}
-          hovered=""
-          filter=""
-        /><text
-          fill="#EEE7EF"
-          x="0"
-          y="60"
-          text-anchor="middle"
-          transform="scale({0.5})"
-          ><tspan x="0" dy="-0.5em" text-anchor="middle">Homme</tspan><tspan
-            x="0"
-            dy="1.2em"
-            text-anchor="middle">panthéonisé</tspan
-          ></text
-        ></g
-      >
-      <g transform="translate({500 / 2 + 120} 25), scale({1.4})">
-        <g transform="translate(-30 0)">
-          <Flower
-            person={{ sex: "W", status: "Partenaire" }}
-            shape={"middle"}
-            hovered=""
-            filter=""
-          />
-        </g>
+          <g transform="translate(175 25), scale({0.7})"
+            ><Flower
+              person={{ sex: "M", status: "Panthéonisée" }}
+              shape={"petals"}
+              hovered=""
+              filter=""
+            /><text
+              fill="#EEE7EF"
+              x="0"
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
+              ><tspan x="0" dy="-0.5em" text-anchor="middle">Homme</tspan><tspan
+                x="0"
+                dy="1.2em"
+                text-anchor="middle">panthéonisé</tspan
+              ></text
+            ></g
+          >
+        </svg>
+      </div>
+      <div>
+        <svg width="250" height={marginHeight} class="legend-elements">
+          <g transform="translate(125 25), scale({0.7})">
+            <g transform="translate(-60 0)">
+              <Flower
+                person={{ sex: "W", status: "Partenaire" }}
+                shape={"petals"}
+                hovered=""
+                filter=""
+              />
+            </g>
 
-        <g transform="translate(30 0)">
-          <Flower
-            person={{ sex: "M", status: "Partenaire" }}
-            shape={"middle"}
-            hovered=""
-            filter=""
-          /></g
-        >
-        <text
-          fill="#EEE7EF"
-          x="0"
-          y="60"
-          text-anchor="middle"
-          transform="scale({0.5})"
-        >
-          <tspan x="0" dy="-0.5em" text-anchor="middle"
-            >Femme / homme reposant au Panthéon,</tspan
-          ><tspan x="0" dy="1.2em" text-anchor="middle"
-            >sans être panthéonisé(e)</tspan
+            <g transform="translate(60 0)">
+              <Flower
+                person={{ sex: "M", status: "Partenaire" }}
+                shape={"petals"}
+                hovered=""
+                filter=""
+              /></g
+            >
+            <text
+              fill="#EEE7EF"
+              x="0"
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
+            >
+              <tspan x="0" dy="-0.5em" text-anchor="middle"
+                >Femme / homme reposant au Panthéon,</tspan
+              ><tspan x="0" dy="1.2em" text-anchor="middle"
+                >sans être panthéonisé(e)</tspan
+              >
+            </text></g
           >
-        </text></g
-      >
-    </svg>
+        </svg>
+      </div>
+    </div>
   </div>
 
   <!-- Filter -->
@@ -168,6 +176,9 @@
             } else {
               selectedFilter = filter;
             }
+            if (filter.startDate === 1958) {
+              periodHovered = null;
+            }
           }}
           on:keydown={() => {
             selectedFilter = filter;
@@ -177,9 +188,9 @@
           style="
         background-color: {selectedFilter === filter ? '#eee7ef' : ''};
         color:{selectedFilter === filter ? '#120833' : '#eee7ef'} ; 
-          border: 2px solid #eee7ef"
+          "
         >
-          {filter.value} ({filter.startDate}-{filter.endDate})
+          {filter.value} <br />({filter.startDate}-{filter.endDate})
         </div>
       {/each}
     </div>
@@ -272,7 +283,10 @@
           <g
             transform="translate({person.x} {person.y}), scale({0.3})"
             on:mouseover={() => {
-              if (hovered === null || hovered.data.id != person.id) {
+              if (
+                (filters[0] && hovered === null) ||
+                hovered.data.id != person.id
+              ) {
                 hovered = {
                   x: person.x,
                   y: person.y,
@@ -309,11 +323,17 @@
 
 <style>
   .left {
-    width: 500px;
+    width: 400px;
   }
 
   .intro-viz {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+  }
+
+  .legend-groups {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   .graph-container {
     margin: 0 auto;
@@ -337,8 +357,8 @@
 
   .filter-nav {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    gap: 20px;
   }
 
   .filter-nav div {
@@ -346,9 +366,55 @@
     padding: 2px 10px;
     cursor: pointer;
     width: 70%;
+    border: 2px solid #eee7ef;
+    width: auto;
+    font-size: 13px;
+    text-align: center;
   }
 
   .filter-nav div:hover {
     background-color: #eee7ef3f;
+  }
+
+  @media (max-width: 992px) {
+    .left {
+      width: 100%;
+      padding: 10px 20px;
+    }
+
+    h2 {
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .intro-viz {
+      font-size: 12px;
+
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .legend-groups {
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .legend-groups div {
+      display: flex;
+      justify-content: center;
+    }
+
+    .inner-container {
+      transform: scale(0.6);
+    }
+
+    .graph-container {
+      height: fit-content;
+    }
   }
 </style>
