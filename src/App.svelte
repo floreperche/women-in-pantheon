@@ -3,6 +3,7 @@
   import SpiralViz from "./components/SpiralViz.svelte";
   import BeeSwarmViz from "./components/BeeSwarmViz.svelte";
   import TreeDiagram from "./components/TreeDiagram.svelte";
+  import logo from "./assets/logo_wildvariables.png";
 
   // Basic dimensions
   const margin = { top: 10, right: 30, left: 30, bottom: 30 };
@@ -25,7 +26,7 @@
     <h1>Aux grandes femmes, la Nation reconnaissante?</h1>
     <!-- Navigation -->
     <nav>
-      {#each vizOptions as option}
+      {#each vizOptions as option, i}
         <div
           class="selection"
           on:click={() => {
@@ -35,7 +36,7 @@
             selectedOption = option.id;
           }}
           role="menuitem"
-          tabindex={1}
+          tabindex={i}
           style="opacity : {selectedOption === option.id ? '100%' : '50%'}"
         >
           {option.value}
@@ -58,13 +59,22 @@
   </div>
 
   <!-- Footer -->
-  <div class="bottom-space"></div>
+  <div class="bottom-space">
+    <p>
+      Source: <a
+        href="https://fr.wikipedia.org/wiki/Liste_des_personnes_transf%C3%A9r%C3%A9es_au_Panth%C3%A9on_de_Paris"
+        target="_blank">Wikipedia</a
+      >
+    </p>
+    <img src={logo} alt="wild variables logo" class="logo" />
+  </div>
 </main>
 
 <style>
   main {
     background-color: #120833;
     min-height: 100vh;
+    height: fit-content;
   }
   .header {
     font-family: "Cabinet Grotesk", sans-serif;
@@ -76,7 +86,7 @@
   }
 
   h1 {
-    font-size: 36px;
+    font-size: 30px;
     margin-bottom: 20px;
   }
 
@@ -105,7 +115,15 @@
   }
 
   .bottom-space {
-    height: 10px;
+    background-color: #120833;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .logo {
+    width: 150px;
   }
 
   @media (max-width: 992px) {
@@ -134,6 +152,15 @@
     }
     .main-content {
       gap: 0px;
+    }
+
+    .bottom-space {
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .logo {
+      width: 100px;
     }
   }
 </style>

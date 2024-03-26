@@ -71,6 +71,7 @@
   .tooltip h3 span,
   p {
     color: #120833;
+    background: #eee7ef;
   }
 
   p span {
@@ -80,5 +81,6 @@
     font-weight: 400;
     font-size: 14px;
     border-radius: 4px;
+    background: #eee7ef;
   }
 </style>
