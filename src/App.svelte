@@ -43,9 +43,6 @@
     </nav>
   </div>
 
-  <div style="width:320px; background-color : blue; height : 20px;"></div>
-  <div style="width:576px; background-color : green; height : 20px;"></div>
-
   <!-- Main content -->
   <div class="main-content">
     <!-- Visualisation choise -->
@@ -67,6 +64,7 @@
 <style>
   main {
     background-color: #120833;
+    min-height: 100vh;
   }
   .header {
     font-family: "Cabinet Grotesk", sans-serif;
@@ -128,8 +126,14 @@
   }
 
   @media (max-width: 576px) {
+    .header {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background: linear-gradient(#120833, 95%, #12083300);
+    }
     .main-content {
-      gap: 10px;
+      gap: 0px;
     }
   }
 </style>

@@ -284,8 +284,11 @@
     }
 
     .right {
-      transform: scale(0.6);
       height: fit-content;
+    }
+
+    .graph-container {
+      transform: scale(0.6);
     }
   }
 </style>

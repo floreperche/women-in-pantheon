@@ -167,7 +167,7 @@
 
   <!-- Filter -->
   <div class="filter">
-    <h3>Filtrer</h3>
+    <h3>Filtres</h3>
     <div class="filter-nav">
       {#each filters as filter}<div
           on:click={() => {
@@ -410,7 +410,7 @@
     }
 
     .inner-container {
-      transform: scale(0.6);
+      transform: scale(0.65);
     }
 
     .graph-container {

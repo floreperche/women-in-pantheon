@@ -107,55 +107,64 @@
   <!-- legend -->
   <div class="legend">
     <h3>Légende</h3>
-    <div class="legend">
-      <svg width="500" height={marginHeight}>
-        <g transform="translate({500 / 2 - 150} 25), scale({0.7})">
-          <Flower
-            person={{ sex: "W", status: "Panthéonisée" }}
-            shape={"petals"}
-            hovered=""
-            filter=""
-          />
-          <text
-            fill="#EEE7EF"
-            x="0"
-            y="60"
-            text-anchor="middle"
-            transform="scale({1})"
-            ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
+    <div class="legend-groups">
+      <div>
+        <svg width="250" height={marginHeight} class="legend-elements">
+          <g transform="translate(125 25), scale({0.7})"
+            ><Flower
+              person={{ sex: "W", status: "Panthéonisée" }}
+              shape={"petals"}
+              hovered=""
+              filter=""
+            /><text
+              fill="#EEE7EF"
               x="0"
-              dy="1.2em"
-              text-anchor="middle">panthéonisée</tspan
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
+              ><tspan x="0" dy="-0.5em" text-anchor="middle">Femme</tspan><tspan
+                x="0"
+                dy="1.2em"
+                text-anchor="middle">panthéonisée</tspan
+              >
+            </text></g
+          >
+        </svg>
+      </div>
+      <div>
+        <svg width="250" height={marginHeight} class="legend-elements">
+          <g transform="translate(125 25), scale({0.7})">
+            <g>
+              <Flower
+                person={{ sex: "W", status: "Partenaire" }}
+                shape={"petals"}
+                hovered=""
+                filter=""
+              />
+            </g>
+
+            <text
+              fill="#EEE7EF"
+              x="0"
+              y="60"
+              text-anchor="middle"
+              transform="scale({1})"
             >
-          </text></g
-        >
-        <g transform="translate({500 / 2 + 120} 25), scale({0.7})">
-          <Flower
-            person={{ sex: "W", status: "Partenaire" }}
-            shape={"petals"}
-            hovered=""
-            filter=""
-          />
-          <text
-            fill="#EEE7EF"
-            x="0"
-            y="60"
-            text-anchor="middle"
-            transform="scale({1})"
-            ><tspan x="0" dy="-0.5em" text-anchor="middle"
-              >Femme reposant au Panthéon,</tspan
-            ><tspan x="0" dy="1.2em" text-anchor="middle"
-              >sans être panthéonisée</tspan
-            >
-          </text></g
-        >
-      </svg>
+              <tspan x="0" dy="-0.5em" text-anchor="middle"
+                >Femme reposant au Panthéon,</tspan
+              ><tspan x="0" dy="1.2em" text-anchor="middle"
+                >sans être panthéonisé(e)</tspan
+              >
+            </text></g
+          >
+        </svg>
+      </div>
     </div>
   </div>
 
   <!-- Filter -->
   <div class="filter">
-    <h3>Filtrer</h3>
+    <h3>Filtres</h3>
     <div class="filter-nav">
       {#each filters as filter}
         <div
@@ -304,11 +313,17 @@
 
 <style>
   .left {
-    width: 500px;
+    width: 400px;
   }
 
   .intro-viz {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+  }
+
+  .legend-groups {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   .graph-container {
     margin: 0 auto;
@@ -328,17 +343,67 @@
 
   .filter-nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   .filter-nav div {
     margin: 8px 0px;
-    padding: 2px 10px;
-    /* border-radius: 8px; */
+    padding: 2px 6px;
     cursor: pointer;
+    width: auto;
+    font-size: 13px;
+    text-align: center;
   }
 
   .filter-nav div:hover {
     background-color: #eee7ef3f;
+  }
+
+  @media (max-width: 992px) {
+    .left {
+      width: 100%;
+      padding: 10px 20px;
+    }
+
+    h2 {
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .intro-viz {
+      font-size: 12px;
+
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 12px;
+    }
+
+    .filter-nav {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .legend-groups {
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .legend-groups div {
+      display: flex;
+      justify-content: center;
+    }
+
+    .right {
+      height: fit-content;
+    }
+
+    .graph-container {
+      transform: scale(0.62);
+    }
   }
 </style>
