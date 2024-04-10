@@ -14,10 +14,10 @@
 
   // Beeswarm generator
   $: xScale = scaleLinear()
-    .domain([selectedFilter.startDate, 2024])
+    .domain([1791, 2024])
     .range([0 + margin.left, width - margin.right]);
 
-  const RADIUS = 9;
+  const RADIUS = 10;
 
   const simulation = forceSimulation(data);
 
@@ -27,17 +27,17 @@
         "x",
         forceX()
           .x((d) => xScale(d.transfered_date))
-          .strength(0.2)
+          .strength(0.8)
       )
       .force(
         "y",
         forceY()
           .y((d) => height / 2)
-          .strength(0.005)
+          .strength(0.1)
       )
       .force("collide", forceCollide().radius(RADIUS))
-      .alpha(0.99)
-      .alphaDecay(0)
+      .alpha(0.2)
+      .alphaDecay(0.0005)
       .restart();
   }
 
@@ -50,7 +50,7 @@
   let xTicks = [1800, 1850, 1900, 1950, 2000];
 
   // Animation management
-  let periodHovered = timeData[timeData.length - 1];
+  let periodHovered = null;
   let hovered = null;
 
   // Filters
@@ -171,12 +171,11 @@
     <div class="filter-nav">
       {#each filters as filter}<div
           on:click={() => {
-            if (selectedFilter === filter) {
-              selectedFilter = null;
-            } else {
-              selectedFilter = filter;
-            }
+            selectedFilter = filter;
+
             if (filter.startDate === 1958) {
+              periodHovered = timeData[timeData.length - 1];
+            } else {
               periodHovered = null;
             }
           }}
@@ -203,55 +202,40 @@
     <div
       class="inner-container"
       on:mouseleave={() => {
-        periodHovered = timeData[timeData.length - 1];
+        hovered = null;
       }}
       role="tooltip"
     >
       <svg {height} {width}>
         <!-- Period label -->
         <g>
-          {#each timeData as period}
+          {#if periodHovered}
             <rect
-              x={xScale(period.start_date)}
-              y="40"
-              width={xScale(period.end_date) - xScale(period.start_date)}
+              x={xScale(periodHovered.start_date)}
+              y="50"
+              width={xScale(periodHovered.end_date) -
+                xScale(periodHovered.start_date)}
               height={height - 40}
               fill="#eee7ef"
-              opacity={periodHovered === period ? "20%" : "0%"}
+              opacity="20%"
               role="tooltip"
-              on:mouseover={() => {
-                if (periodHovered === null || periodHovered != period) {
-                  periodHovered = period;
-                }
-              }}
-              on:focus={() => {
-                if (periodHovered === null || periodHovered != period) {
-                  periodHovered = period;
-                }
-              }}
             />
             <text
-              fill={periodHovered === period ? "white" : "none"}
-              x={(xScale(period.end_date) + xScale(period.start_date)) / 2}
-              y="14"
-              text-anchor={periodHovered
-                ? periodHovered.id > 2
-                  ? "middle"
-                  : "left"
-                : "none"}>{period.name}</text
+              class="period-date"
+              fill="white"
+              x={width / 2}
+              y="30"
+              text-anchor="middle">Régime politique: Vème République</text
             >
-            <text
-              fill={periodHovered === period ? "white" : "none"}
-              x={(xScale(period.end_date) + xScale(period.start_date)) / 2}
-              y="32"
-              text-anchor={periodHovered
-                ? periodHovered.id > 2
-                  ? "middle"
-                  : "left"
-                : "none"}
-              class="period-date">({period.start_date}-{period.end_date})</text
+          {:else if hovered}<text
+              class="period-date"
+              fill="white"
+              x={width / 2}
+              y="30"
+              text-anchor="middle"
+              >Régime politique: {hovered.data.period_name}</text
             >
-          {/each}
+          {/if}
         </g>
 
         <!-- xScale labels -->
@@ -279,9 +263,13 @@
         >
 
         <!-- Data points -->
-        {#each nodes as person, index}
+        {#each nodes as person}
           <g
-            transform="translate({person.x} {person.y}), scale({0.3})"
+            transform="translate({person.x} {person.y}), scale({periodHovered
+              ? person.transfered_date < 1958
+                ? 0
+                : 0.3
+              : 0.3})"
             on:mouseover={() => {
               if (
                 (filters[0] && hovered === null) ||
@@ -304,9 +292,6 @@
               }
             }}
             role="tooltip"
-            on:mouseleave={() => {
-              hovered = null;
-            }}
           >
             <Flower {person} shape={"petals"} {hovered} filter="" />
           </g>
@@ -348,7 +333,7 @@
   }
 
   .period-date {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .filter {
@@ -411,10 +396,8 @@
 
     .inner-container {
       transform: scale(0.65);
-    }
-
-    .graph-container {
-      height: fit-content;
+      margin-top: -50px;
+      margin-bottom: -50px;
     }
   }
 </style>

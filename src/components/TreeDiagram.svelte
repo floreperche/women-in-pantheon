@@ -1,7 +1,7 @@
 <script>
   import { scaleLinear } from "d3";
   import Flower from "./Flower.svelte";
-  import Tooltip from "./Tooltip.svelte";
+  import TreeTooltip from "./TreeTooltip.svelte";
 
   export let data;
   export let width;
@@ -305,7 +305,7 @@
 
       <!-- Tooltip -->
       {#if hovered}
-        <Tooltip data={hovered} {width} />
+        <TreeTooltip data={hovered} {width} />
       {/if}
     </div>
   </div>
@@ -404,6 +404,8 @@
 
     .graph-container {
       transform: scale(0.62);
+      margin-top: -50px;
+      margin-bottom: -50px;
     }
   }
 </style>

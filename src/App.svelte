@@ -117,6 +117,7 @@
   .bottom-space {
     background-color: #120833;
     padding-bottom: 50px;
+    padding-top: 20px;
     display: flex;
     justify-content: center;
     gap: 40px;

@@ -25,29 +25,32 @@
   out:fade
 >
   <h3>
-    {data.data.name} ({data.data.birth_date}-{data.data.death_date})
+    {data.data.name}
   </h3>
   <!-- Display is Panthéonisé -->
   {#if data.data.status === "Panthéonisée"}
     <p>
-      {#if data.data.sex === "W"}Panthéonisée en <span
-          style="background-color : {colorScale(data.data.sex)}"
-          >{data.data.transfered_date}</span
-        >
+      {data.data.main_activity}, elle fût panthéonisée en
+      <span style="background-color : {colorScale(data.data.sex)}"
+        >{data.data.transfered_date}</span
+      >, {#if data.data.gap_death_transfered === 0}
+        l'année de sa mort{:else if data.data.gap_death_transfered === 1}
+        {data.data.gap_death_transfered} an après sa mort
       {:else}
-        Panthéonisé en <span
-          style="background-color : {colorScale(data.data.sex)}"
-          >{data.data.transfered_date}</span
-        >
-      {/if}
+        {data.data.gap_death_transfered} ans après sa mort{/if}
     </p>
     <!-- Display is not Panthéonisé -->
   {:else}
     <p>
-      Repose au Panthéon depuis <span
-        style="background-color : {colorScale(data.data.sex)}"
+      {data.data.main_activity}, elle repose au Panthéon depuis
+      <span style="background-color : {colorScale(data.data.sex)}"
         >{data.data.transfered_date}</span
-      >, mais n'est pas panthéonisé(e)
+      >,
+      {#if data.data.gap_death_transfered === 0}
+        l'année de sa mort{:else if data.data.gap_death_transfered === 1}
+        {data.data.gap_death_transfered} an après sa mort
+      {:else}
+        {data.data.gap_death_transfered} ans après sa mort{/if}
     </p>
   {/if}
 </div>
