@@ -2,7 +2,7 @@
 
 ![Project preview](./src/assets/women-in-pantheon.png)
 
-A [french data visualisation project](www.wildvariables.github.io/women-in-pantheon) made with Svelte and d3.js. The goal was to highlight the few women who were given a national tribute by transfering their remains in le Panthéon, Paris.
+A [french data visualisation project](https://wildvariables.github.io/women-in-pantheon/) made with Svelte and d3.js. The goal was to highlight the few women who were given a national tribute by transfering their remains in le Panthéon, Paris.
 
 ## Installation
 
